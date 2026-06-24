@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <clipPath id="rounded">
+      <rect width="512" height="512" rx="115"/>
+    </clipPath>
+  </defs>
+
+  <!-- Fond jaune pop art -->
+  <rect width="512" height="512" rx="115" fill="#FFE000"/>
+
+  <!-- Halftone dots Ben-Day style -->
+  <g clip-path="url(#rounded)" opacity="0.18">
+    <circle cx="40" cy="40" r="12" fill="#FF3B00"/>
+    <circle cx="100" cy="40" r="12" fill="#FF3B00"/>
+    <circle cx="160" cy="40" r="12" fill="#FF3B00"/>
+    <circle cx="220" cy="40" r="12" fill="#FF3B00"/>
+    <circle cx="280" cy="40" r="12" fill="#FF3B00"/>
+    <circle cx="340" cy="40" r="12" fill="#FF3B00"/>
+    <circle cx="400" cy="40" r="12" fill="#FF3B00"/>
+    <circle cx="460" cy="40" r="12" fill="#FF3B00"/>
+    <circle cx="70" cy="90" r="12" fill="#FF3B00"/>
+    <circle cx="130" cy="90" r="12" fill="#FF3B00"/>
+    <circle cx="190" cy="90" r="12" fill="#FF3B00"/>
+    <circle cx="250" cy="90" r="12" fill="#FF3B00"/>
+    <circle cx="310" cy="90" r="12" fill="#FF3B00"/>
+    <circle cx="370" cy="90" r="12" fill="#FF3B00"/>
+    <circle cx="430" cy="90" r="12" fill="#FF3B00"/>
+    <circle cx="40" cy="440" r="12" fill="#FF3B00"/>
+    <circle cx="100" cy="440" r="12" fill="#FF3B00"/>
+    <circle cx="160" cy="440" r="12" fill="#FF3B00"/>
+    <circle cx="220" cy="440" r="12" fill="#FF3B00"/>
+    <circle cx="280" cy="440" r="12" fill="#FF3B00"/>
+    <circle cx="340" cy="440" r="12" fill="#FF3B00"/>
+    <circle cx="400" cy="440" r="12" fill="#FF3B00"/>
+    <circle cx="460" cy="440" r="12" fill="#FF3B00"/>
+    <circle cx="70" cy="490" r="12" fill="#FF3B00"/>
+    <circle cx="130" cy="490" r="12" fill="#FF3B00"/>
+    <circle cx="190" cy="490" r="12" fill="#FF3B00"/>
+    <circle cx="250" cy="490" r="12" fill="#FF3B00"/>
+    <circle cx="310" cy="490" r="12" fill="#FF3B00"/>
+    <circle cx="370" cy="490" r="12" fill="#FF3B00"/>
+    <circle cx="430" cy="490" r="12" fill="#FF3B00"/>
+  </g>
+
+  <!-- Explosion burst / starburst derrière -->
+  <g clip-path="url(#rounded)">
+    <polygon points="256,20 280,180 340,80 290,220 430,140 300,240 470,280 300,280 430,370 280,290 340,440 250,300 200,450 220,295 80,400 200,275 50,310 190,245 30,180 200,220 120,80 230,195" 
+             fill="#FF3B00" opacity="0.12"/>
+  </g>
+
+  <!-- Speech bubble principale - blanche avec bord noir -->
+  <g clip-path="url(#rounded)">
+    <!-- Ombre bubble -->
+    <rect x="42" y="132" width="428" height="235" rx="28" fill="#1B1B1B"/>
+    <!-- Bubble blanche -->
+    <rect x="36" y="126" width="428" height="235" rx="28" fill="white" stroke="#1B1B1B" stroke-width="8"/>
+    <!-- Queue de bulle en bas gauche -->
+    <polygon points="90,358 60,420 150,358" fill="white"/>
+    <polygon points="90,366 56,426 158,366" fill="#1B1B1B"/>
+    <polygon points="90,358 60,420 150,358" fill="white"/>
+  </g>
+
+  <!-- Texte HTZ dans la bubble -->
+  <text x="250" y="235" text-anchor="middle" 
+        font-family="Arial Black, Impact, sans-serif" font-weight="900" 
+        font-size="118" letter-spacing="-4"
+        fill="#1B6EF3" stroke="#1B1B1B" stroke-width="10" paint-order="stroke">HTZ</text>
+
+  <!-- Texte BIBLI en dessous, plus petit, orange -->
+  <text x="250" y="322" text-anchor="middle"
+        font-family="Arial Black, Impact, sans-serif" font-weight="900"
+        font-size="72" letter-spacing="8"
+        fill="#FF6B00" stroke="#1B1B1B" stroke-width="8" paint-order="stroke">BIBLI</text>
+
+  <!-- Petites étoiles décoratives comics -->
+  <!-- Étoile haut droite -->
+  <g transform="translate(398,78) rotate(15)">
+    <polygon points="0,-28 6,-10 24,-10 10,2 16,20 0,10 -16,20 -10,2 -24,-10 -6,-10" fill="#FF6B00" stroke="#1B1B1B" stroke-width="4" stroke-linejoin="round"/>
+  </g>
+  <!-- Étoile bas droite -->
+  <g transform="translate(440,400) rotate(-10)">
+    <polygon points="0,-22 5,-8 19,-8 8,2 13,16 0,8 -13,16 -8,2 -19,-8 -5,-8" fill="#1B6EF3" stroke="#1B1B1B" stroke-width="4" stroke-linejoin="round"/>
+  </g>
+  <!-- Étoile haut gauche -->
+  <g transform="translate(75,95) rotate(20)">
+    <polygon points="0,-18 4,-6 16,-6 6,2 10,14 0,7 -10,14 -6,2 -16,-6 -4,-6" fill="#FFE000" stroke="#1B1B1B" stroke-width="4" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Petit POW! badge en bas à droite -->
+  <g transform="translate(400,420)">
+    <ellipse cx="0" cy="0" rx="72" ry="52" fill="#FF3B00" stroke="#1B1B1B" stroke-width="6"/>
+    <!-- Pointes du badge -->
+    <polygon points="-72,0 -88,-16 -72,-6" fill="#FF3B00" stroke="#1B1B1B" stroke-width="3"/>
+    <polygon points="72,0 88,16 72,6" fill="#FF3B00" stroke="#1B1B1B" stroke-width="3"/>
+    <polygon points="0,-52 16,-68 6,-52" fill="#FF3B00" stroke="#1B1B1B" stroke-width="3"/>
+    <polygon points="0,52 -16,68 -6,52" fill="#FF3B00" stroke="#1B1B1B" stroke-width="3"/>
+    <ellipse cx="0" cy="0" rx="72" ry="52" fill="#FF3B00"/>
+    <text x="0" y="8" text-anchor="middle" font-family="Arial Black, Impact, sans-serif" font-weight="900" font-size="30" fill="white" stroke="#1B1B1B" stroke-width="3" paint-order="stroke" letter-spacing="1">POW!</text>
+  </g>
+
+</svg>
