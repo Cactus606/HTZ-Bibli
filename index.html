@@ -571,7 +571,7 @@ mark{background:rgba(27,110,243,.15);color:#5B9BFF;border-radius:3px;padding:0 2
 
 <script>
 const KEY='inkbox_v5';
-let series=[], palOrder=[];
+let series=[], palOrder=[], topOrder=[];
 let editId=null,curNote=0,curColor='#1B6EF3';
 let activeFilter='all',activeGenre='',activeAlpha='';
 let curView='collection';
@@ -592,29 +592,14 @@ function load(){
     const d=JSON.parse(localStorage.getItem(KEY))||{};
     series=d.series||[];
     palOrder=d.palOrder||[];
+    topOrder=d.topOrder||[];
   }catch(e){series=[];palOrder=[]}
 }
 function save(){
-  localStorage.setItem(KEY,JSON.stringify({series,palOrder}));
+  localStorage.setItem(KEY,JSON.stringify({series,palOrder,topOrder}));
 }
 
-function demo(){
-  series=[
-    {id:1,nom:'One Piece',auteur:'Eiichiro Oda',dessinateur:'',type:'Manga',genre:'Aventure',editeur:'Glénat',editeurVo:'',anneeVo:1997,anneeVf:1999,total:107,posses:12,tomes_lus:[1,2,3,4,5,6,7,8,9,10],cover:'',color:'#1B6EF3',note:5,statut:'en cours',notes:'Le meilleur manga de tous les temps.',added:Date.now()-864e5*30,prix:6.99,pages:192,poids:185},
-    {id:2,nom:'Naruto',auteur:'Masashi Kishimoto',dessinateur:'',type:'Manga',genre:'Action',editeur:'Kana',editeurVo:'',anneeVo:1999,anneeVf:2002,total:72,posses:72,tomes_lus:Array.from({length:72},(_,i)=>i+1),cover:'',color:'#FF9500',note:4,statut:'complete',notes:'Début incroyable.',added:Date.now()-864e5*25,prix:6.99,pages:192,poids:180},
-    {id:3,nom:'Astérix',auteur:'Goscinny',dessinateur:'Uderzo',type:'BD',genre:'Humour',editeur:'Dargaud',editeurVo:'',anneeVo:1961,anneeVf:1961,total:40,posses:28,tomes_lus:Array.from({length:20},(_,i)=>i+1),cover:'',color:'#00B8D4',note:5,statut:'en cours',notes:'Classique absolu.',added:Date.now()-864e5*20,prix:10.50,pages:48,poids:240},
-    {id:4,nom:'Batman: The Dark Knight',auteur:'Frank Miller',dessinateur:'David Mazzucchelli',type:'Comics',genre:'Super-héros',editeur:'Urban Comics',editeurVo:'DC Comics',anneeVo:1987,anneeVf:2012,total:4,posses:4,tomes_lus:[1,2,3,4],cover:'',color:'#FF4F6A',note:5,statut:'complete',notes:'Référence absolue.',added:Date.now()-864e5*15,prix:18,pages:52,poids:130},
-    {id:5,nom:'Akira',auteur:'Katsuhiro Otomo',dessinateur:'',type:'Manga',genre:'SF',editeur:'Glénat',editeurVo:'',anneeVo:1982,anneeVf:1990,total:6,posses:6,tomes_lus:[1,2,3,4,5,6],cover:'',color:'#6FD94A',note:5,statut:'complete',notes:'Révolutionnaire.',added:Date.now()-864e5*12,prix:14.99,pages:360,poids:400},
-    {id:6,nom:'Gardiens de la Galaxie',auteur:'Brian Bendis',dessinateur:'Steve McNiven',type:'Comics',genre:'SF',editeur:'Panini',editeurVo:'Marvel',anneeVo:2012,anneeVf:2014,total:10,posses:3,tomes_lus:[1,2],cover:'',color:'#FF4F6A',note:3,statut:'en cours',notes:'',added:Date.now()-864e5*10,prix:16,pages:136,poids:180},
-    {id:7,nom:'Dragon Ball',auteur:'Akira Toriyama',dessinateur:'',type:'Manga',genre:'Action',editeur:'Glénat',editeurVo:'',anneeVo:1984,anneeVf:1993,total:42,posses:42,tomes_lus:Array.from({length:42},(_,i)=>i+1),cover:'',color:'#FF9500',note:5,statut:'complete',notes:'Nostalgie pure.',added:Date.now()-864e5*8,prix:6.99,pages:192,poids:185},
-    {id:8,nom:'Tintin',auteur:'Hergé',dessinateur:'Hergé',type:'BD',genre:'Aventure',editeur:'Casterman',editeurVo:'',anneeVo:1929,anneeVf:1929,total:24,posses:16,tomes_lus:Array.from({length:12},(_,i)=>i+1),cover:'',color:'#00B8D4',note:5,statut:'en cours',notes:'Intemporel.',added:Date.now()-864e5*5,prix:11,pages:62,poids:260},
-    {id:9,nom:'Bleach',auteur:'Tite Kubo',dessinateur:'',type:'Manga',genre:'Action',editeur:'Glénat',editeurVo:'',anneeVo:2001,anneeVf:2004,total:74,posses:20,tomes_lus:Array.from({length:15},(_,i)=>i+1),cover:'',color:'#5B9BFF',note:3,statut:'en cours',notes:'',added:Date.now()-864e5*3,prix:6.99,pages:192,poids:180},
-    {id:10,nom:'Watchmen',auteur:'Alan Moore',dessinateur:'Dave Gibbons',type:'Comics',genre:'Super-héros',editeur:'Urban Comics',editeurVo:'DC Comics',anneeVo:1986,anneeVf:2012,total:1,posses:1,tomes_lus:[1],cover:'',color:'#FF4F6A',note:5,statut:'complete',notes:"Chef-d'œuvre.",added:Date.now()-864e5*2,prix:25,pages:416,poids:580},
-    {id:11,nom:'Attack on Titan',auteur:'Hajime Isayama',dessinateur:'',type:'Manga',genre:'Action',editeur:'Pika',editeurVo:'',anneeVo:2009,anneeVf:2013,total:34,posses:34,tomes_lus:Array.from({length:34},(_,i)=>i+1),cover:'',color:'#6FD94A',note:5,statut:'complete',notes:'Phénomène.',added:Date.now()-864e5*1,prix:7.65,pages:200,poids:190},
-  ];
-  palOrder=[];
-  save();
-}
+function demo(){series=[];palOrder=[];save();}
 
 
 // ── HERO ──
@@ -654,6 +639,74 @@ function updateHero(){
       <div class="hbook-num">${s.nom.substring(0,8)}</div>
       ${i===2&&hasBubble?`<div class="hero-bubble">📚 ${nonLus} à lire !</div>`:''}
     </div>`).join('');
+}
+
+
+
+// ── TOP PERSO ──
+function getTop(){
+  // All series with notes
+  const noted=series.filter(s=>s.note>0);
+  const ordered=[];
+  topOrder.forEach(id=>{const s=noted.find(x=>x.id===id);if(s)ordered.push(s)});
+  noted.forEach(s=>{if(!topOrder.includes(s.id))ordered.push(s)});
+  return ordered;
+}
+function saveTopOrder(arr){topOrder=arr.map(s=>s.id);save()}
+let topDragSrc=null;
+function topDragStart(e,id){topDragSrc=id;e.currentTarget.style.opacity='.4'}
+function topDragOver(e){e.preventDefault();e.currentTarget.style.background='var(--violet-light)'}
+function topDragLeave(e){e.currentTarget.style.background=''}
+function topDragEnd(){
+  document.querySelectorAll('.top-drag-item').forEach(i=>{i.style.opacity='';i.style.background=''});
+  topDragSrc=null;
+}
+function topDrop(e,targetId){
+  e.preventDefault();e.currentTarget.style.background='';
+  if(topDragSrc===null||topDragSrc===targetId)return;
+  const arr=getTop();
+  const si=arr.findIndex(s=>s.id===topDragSrc);
+  const ti=arr.findIndex(s=>s.id===targetId);
+  if(si<0||ti<0)return;
+  const a=[...arr];const[m]=a.splice(si,1);a.splice(ti,0,m);
+  saveTopOrder(a);
+  renderTopPerso();
+  toast('↕️ Classement mis à jour',null);
+}
+function topReorder(id,newIdx,len){
+  const arr=getTop();
+  const cur=arr.findIndex(s=>s.id===id);
+  if(cur<0)return;
+  newIdx=Math.max(0,Math.min(len-1,newIdx));
+  const a=[...arr];const[m]=a.splice(cur,1);a.splice(newIdx,0,m);
+  saveTopOrder(a);
+  renderTopPerso();
+  toast('📌 Position mise à jour',null);
+}
+function renderTopPerso(){
+  const el=document.getElementById('top-perso-list');
+  if(!el)return;
+  const arr=getTop();
+  if(!arr.length){el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:8px 0">Note tes séries avec ⭐ pour les voir ici !</div>';return}
+  const rc=['r1','r2','r3','','','','','','',''];
+  el.innerHTML=arr.map((s,i)=>`<div class="top-drag-item" data-id="${s.id}" draggable="true"
+    style="display:flex;align-items:center;gap:10px;padding:9px 6px;border-bottom:1px solid var(--border);cursor:grab;transition:background .15s;border-radius:6px"
+    ondragstart="topDragStart(event,${s.id})"
+    ondragover="topDragOver(event)"
+    ondragleave="topDragLeave(event)"
+    ondrop="topDrop(event,${s.id})"
+    ondragend="topDragEnd()">
+    <span style="color:var(--muted);font-size:14px;flex-shrink:0">⠿</span>
+    <div class="top-rank ${rc[i]}" style="flex-shrink:0">${i+1}</div>
+    <div class="top-info" style="flex:1;min-width:0">
+      <div class="top-name">${s.nom}</div>
+      <div class="top-sub">${s.auteur||s.type} · ${'⭐'.repeat(s.note)}</div>
+    </div>
+    <input type="number" min="1" max="${arr.length}" value="${i+1}"
+      style="width:38px;padding:4px;background:var(--surface);border:1px solid var(--border);border-radius:7px;color:var(--ink);font-family:Space Grotesk,sans-serif;font-size:12px;font-weight:700;text-align:center;outline:none;flex-shrink:0"
+      onclick="event.stopPropagation()"
+      onchange="topReorder(${s.id},parseInt(this.value)-1,${arr.length})">
+  </div>`).join('');
 }
 
 // ── PAL helpers ──
@@ -1104,18 +1157,15 @@ function renderStats(){
         </div>
       </div>
     </div>
-    <div class="chart-box">
-      <div class="chart-box-title">🏆 Top — Tomes possédés</div>
-      ${top5t.map((s,i)=>`<div class="top-row"><div class="top-rank ${rc[i]}">${i+1}</div><div class="top-info"><div class="top-name">${s.nom}</div><div class="top-sub">${s.type} · ${s.posses} tomes</div></div><div class="top-val">${s.note?'⭐'.repeat(s.note):''}</div></div>`).join('')}
+    <div class="chart-box full">
+      <div class="chart-box-title">⭐ Mon classement perso <span style="font-size:9px;color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0">· glisse ou tape le numéro</span></div>
+      <div id="top-perso-list"></div>
     </div>
     <div class="chart-box">
       <div class="chart-box-title">📄 Top — Pages lues</div>
       ${topPages.map((s,i)=>{const p=(s.pages||PAGES_DEF[s.type]||192)*(s.tomes_lus?.length||0);return`<div class="top-row"><div class="top-rank ${rc[i]}">${i+1}</div><div class="top-info"><div class="top-name">${s.nom}</div><div class="top-sub">${(s.tomes_lus?.length||0)} tomes lus</div></div><div class="top-val">${p.toLocaleString('fr')} p.</div></div>`}).join('')}
     </div>
-    <div class="chart-box">
-      <div class="chart-box-title">⭐ Top — Meilleures notes</div>
-      ${top5n.map((s,i)=>`<div class="top-row"><div class="top-rank ${rc[i]}">${i+1}</div><div class="top-info"><div class="top-name">${s.nom}</div><div class="top-sub">${s.auteur||s.type}</div></div><div class="top-val">${s.note}⭐</div></div>`).join('')}
-    </div>
+
     <div class="chart-box">
       <div class="chart-box-title">⚖️ Top — Plus lourd</div>
       ${[...series].sort((a,b)=>{return(b.posses*(b.poids||POIDS_DEF[b.type]||185))-(a.posses*(a.poids||POIDS_DEF[a.type]||185))}).slice(0,5).map((s,i)=>{const p=s.posses*(s.poids||POIDS_DEF[s.type]||185);return`<div class="top-row"><div class="top-rank ${rc[i]}">${i+1}</div><div class="top-info"><div class="top-name">${s.nom}</div><div class="top-sub">${s.posses} tomes · ${s.poids||POIDS_DEF[s.type]}g/tome</div></div><div class="top-val">${p>=1000?(p/1000).toFixed(1)+'kg':p+'g'}</div></div>`}).join('')}
@@ -1127,6 +1177,7 @@ function renderStats(){
       </div>
     </div>
   `;
+  setTimeout(()=>{renderTopPerso()},0);
 }
 
 // ── IMPORT/EXPORT ──
