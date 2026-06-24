@@ -370,6 +370,27 @@ mark{background:rgba(27,110,243,.15);color:#5B9BFF;border-radius:3px;padding:0 2
   .bottom-nav{display:grid}
 }
 
+
+/* ── HERO OVERRIDE VINTAGE COMICS ── */
+.hero{background:#FFE000!important;border-bottom:4px solid #1B1B1B!important;}
+.hero::before{background-image:radial-gradient(circle,rgba(255,59,0,.18) 2.5px,transparent 2.5px)!important;background-size:16px 16px!important;}
+.hero-slash{position:absolute;top:0;right:0;width:0;height:0;border-style:solid;border-width:0 160px 160px 0;border-color:transparent #FF3B00 transparent transparent;z-index:0;}
+.hero-eyebrow{font-size:10px!important;font-weight:800!important;letter-spacing:2px!important;color:#FF3B00!important;border:2px solid #FF3B00;padding:2px 8px;border-radius:3px;width:fit-content;background:transparent;}
+.hero-title{font-size:44px!important;font-weight:900!important;letter-spacing:-2px!important;line-height:.95!important;color:#1B1B1B!important;text-shadow:none!important;white-space:nowrap;}
+.hero-title .htz{color:#1B6EF3;-webkit-text-stroke:1.5px #1B1B1B;font-size:48px;}
+.hero-title .accent{display:none}
+.hero-title .bibli{display:inline-block;background:#FF3B00!important;color:#FFE000!important;padding:2px 10px 4px;border-radius:5px;border:3px solid #1B1B1B;font-size:34px;letter-spacing:3px;transform:rotate(-2deg);box-shadow:3px 3px 0 #1B1B1B;vertical-align:middle;margin-left:6px;-webkit-text-stroke:0;}
+.hero-sub{color:#1B1B1B!important;font-weight:600!important;opacity:.65;}
+.hero-kpi{background:#1B1B1B!important;color:#FFE000!important;border:2px solid #1B1B1B!important;border-radius:4px!important;box-shadow:2px 2px 0 rgba(0,0,0,.25);}
+.hero-kpi-val{color:#FF6B00!important;}
+.hero-pow{-webkit-text-stroke:2px rgba(27,27,27,.12)!important;color:transparent!important;font-size:72px!important;}
+@media(max-width:768px){
+  .hero-title{font-size:28px!important;}
+  .hero-title .htz{font-size:32px;}
+  .hero-title .bibli{font-size:22px;letter-spacing:2px;}
+  .hero-inner{min-height:unset!important;}
+}
+
 </style>
 </head>
 <body>
@@ -450,9 +471,9 @@ mark{background:rgba(27,110,243,.15);color:#5B9BFF;border-radius:3px;padding:0 2
     <div class="hero-slash"></div>
     <div class="hero-inner">
       <div class="hero-left">
-        <div class="hero-eyebrow">Ma collection</div>
-        <div class="hero-title">HTZ <span class="accent">BIBLI</span></div>
-        <div class="hero-sub" id="hero-sub">Charge en cours…</div>
+        <div class="hero-eyebrow">✦ Ma Collection ✦</div>
+        <div class="hero-title"><span class="htz">HTZ</span> <span class="bibli">BIBLI</span></div>
+        <div class="hero-sub" id="hero-sub">Ma collection de BD · Comics · Manga</div>
         <div class="hero-kpis" id="hero-kpis"></div>
       </div>
       <div class="hero-right">
