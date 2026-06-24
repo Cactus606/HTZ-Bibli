@@ -645,12 +645,11 @@ function updateHero(){
 
 // ── TOP PERSO ──
 function getTop(){
-  // All series with notes
   const noted=series.filter(s=>s.note>0);
   const ordered=[];
   topOrder.forEach(id=>{const s=noted.find(x=>x.id===id);if(s)ordered.push(s)});
   noted.forEach(s=>{if(!topOrder.includes(s.id))ordered.push(s)});
-  return ordered;
+  return ordered.slice(0,10);
 }
 function saveTopOrder(arr){topOrder=arr.map(s=>s.id);save()}
 let topDragSrc=null;
