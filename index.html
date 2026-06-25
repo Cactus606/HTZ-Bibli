@@ -391,6 +391,90 @@ mark{background:rgba(27,110,243,.15);color:#5B9BFF;border-radius:3px;padding:0 2
   .hero-inner{min-height:unset!important;}
 }
 
+
+/* ── TAGS ── */
+.tag-chip{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;cursor:pointer;transition:all .15s;border:1.5px solid transparent;white-space:nowrap}
+.tag-chip:hover{opacity:.8}
+.tag-prete{background:#FEF3C7;color:#D97706;border-color:#FDE68A}
+.tag-dedicace{background:#EDE9FE;color:#7C3AED;border-color:#DDD6FE}
+.tag-edition-sp{background:#FCE7F3;color:#DB2777;border-color:#FBCFE8}
+.tag-offert{background:#DCFCE7;color:#16A34A;border-color:#BBF7D0}
+.tag-num{background:#DBEAFE;color:#1D4ED8;border-color:#BFDBFE}
+.tag-remove{cursor:pointer;opacity:.6;font-size:11px}
+.tag-remove:hover{opacity:1}
+.tags-row{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.tag-picker{display:flex;gap:5px;flex-wrap:wrap;padding:10px 0}
+.tag-picker-btn{padding:5px 12px;border-radius:20px;border:1.5px solid var(--border);background:var(--white);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
+.tag-picker-btn:hover{border-color:var(--violet);color:var(--violet)}
+
+/* ── À ACHETER ── */
+.acheter-section{margin-bottom:20px}
+.acheter-serie-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.acheter-tomes{display:flex;flex-wrap:wrap;gap:5px}
+.acheter-tome{padding:5px 10px;border-radius:8px;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;border:2px dashed;cursor:pointer;transition:all .2s}
+.acheter-tome:hover{transform:scale(1.08)}
+
+/* ── JOURNAL DE LECTURE ── */
+.journal-list{display:flex;flex-direction:column;gap:8px}
+.journal-item{background:var(--white);border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:12px}
+.journal-date{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;color:var(--muted);white-space:nowrap;flex-shrink:0;min-width:70px}
+.journal-info{flex:1;min-width:0}
+.journal-title{font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.journal-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.journal-empty{text-align:center;padding:40px;color:var(--muted);font-size:14px}
+
+/* ── MOSAÏQUE COUVERTURES ── */
+.mosaic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px}
+.mosaic-item{position:relative;border-radius:10px;overflow:hidden;aspect-ratio:2/3;cursor:pointer;transition:transform .2s;box-shadow:var(--shadow)}
+.mosaic-item:hover{transform:scale(1.05);box-shadow:var(--shadow-lg)}
+.mosaic-item img{width:100%;height:100%;object-fit:cover}
+.mosaic-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:28px}
+.mosaic-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7) 0%,transparent 50%);opacity:0;transition:opacity .2s}
+.mosaic-item:hover .mosaic-overlay{opacity:1}
+.mosaic-name{position:absolute;bottom:4px;left:4px;right:4px;font-size:9px;font-weight:700;color:#fff;font-family:'Space Grotesk',sans-serif;line-height:1.2;display:none}
+.mosaic-item:hover .mosaic-name{display:block}
+
+/* ── DÉFI LECTURE ── */
+.defi-wrap{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:20px;box-shadow:var(--shadow);margin-bottom:16px}
+.defi-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.defi-title{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:800}
+.defi-year{font-size:13px;color:var(--muted)}
+.defi-progress-wrap{margin-bottom:14px}
+.defi-track{height:20px;background:var(--surface2);border-radius:10px;overflow:hidden;position:relative}
+.defi-fill{height:100%;border-radius:10px;transition:width .8s cubic-bezier(.34,1.3,.64,1);position:relative}
+.defi-fill::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);animation:shimmer 2s infinite}
+@keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.defi-pct{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:800;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.4)}
+.defi-numbers{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:6px}
+.defi-numbers strong{color:var(--ink);font-family:'Space Grotesk',sans-serif}
+.defi-input-row{display:flex;align-items:center;gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.defi-input-row label{font-size:12px;color:var(--muted);font-weight:500}
+.defi-input{width:80px;padding:7px 10px;background:var(--surface);border:1.5px solid var(--border);border-radius:8px;color:var(--ink);font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;text-align:center;outline:none;transition:border .2s}
+.defi-input:focus{border-color:var(--violet)}
+.defi-milestones{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.defi-milestone{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;border:1.5px solid var(--border);color:var(--muted)}
+.defi-milestone.reached{background:var(--acid-light);border-color:var(--acid);color:#16A34A}
+
+/* ── MODAL JOURNAL ── */
+.journal-date-input{padding:9px 13px;background:var(--surface);border:1.5px solid transparent;border-radius:10px;color:var(--ink);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:all .2s;width:100%}
+.journal-date-input:focus{background:var(--white);border-color:var(--violet)}
+
+
+/* MORE MENU */
+.more-menu{
+  display:none;position:fixed;bottom:72px;right:0;left:0;
+  background:var(--white);border-top:1.5px solid var(--border);
+  z-index:199;padding:12px;
+  grid-template-columns:1fr 1fr;gap:8px;
+  box-shadow:0 -4px 20px rgba(27,110,243,.1);
+}
+.more-menu.open{display:grid}
+.more-menu-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px;border-radius:12px;background:var(--surface);border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:var(--ink2);transition:all .15s}
+.more-menu-item:hover{background:var(--violet-light);color:var(--violet)}
+.more-menu-item.active{background:var(--violet-light);color:var(--violet)}
+.more-menu-icon{font-size:24px}
+@media(max-width:768px){.bottom-nav{grid-template-columns:1fr 1fr 1fr 1fr}}
+
 </style>
 </head>
 <body>
@@ -421,6 +505,18 @@ mark{background:rgba(27,110,243,.15);color:#5B9BFF;border-radius:3px;padding:0 2
     </button>
     <button class="nav-item" onclick="switchView('stats',this)">
       <span class="nav-icon">📊</span><span>Statistiques</span>
+    </button>
+    <button class="nav-item" onclick="switchView('acheter',this)">
+      <span class="nav-icon">🛒</span><span>À acheter</span>
+    </button>
+    <button class="nav-item" onclick="switchView('journal',this)">
+      <span class="nav-icon">📅</span><span>Journal</span>
+    </button>
+    <button class="nav-item" onclick="switchView('mosaic',this)">
+      <span class="nav-icon">🖼️</span><span>Mosaïque</span>
+    </button>
+    <button class="nav-item" onclick="switchView('defi',this)">
+      <span class="nav-icon">🎯</span><span>Défi lecture</span>
     </button>
   </div>
   <div class="sidebar-divider"></div>
@@ -493,6 +589,34 @@ mark{background:rgba(27,110,243,.15);color:#5B9BFF;border-radius:3px;padding:0 2
       <div><div class="pal-title">📚 Pile à lire</div><div class="pal-subtitle" id="pal-sub">Séries possédées avec des tomes non lus · Glisse pour réordonner</div></div>
     </div>
     <div class="pal-list" id="pal-list"></div>
+  </div>
+
+  <div class="content-wrap" id="view-acheter" style="display:none">
+    <div style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;margin-bottom:6px">🛒 À acheter</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:20px">Tomes manquants dans tes séries · Clique pour marquer possédé</div>
+    <div id="acheter-list"></div>
+  </div>
+
+  <div class="content-wrap" id="view-journal" style="display:none">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800">📅 Journal de lecture</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:2px">Ton historique de lecture</div>
+      </div>
+      <button class="btn-xs v" onclick="openJournalEntry()">＋ Ajouter</button>
+    </div>
+    <div class="journal-list" id="journal-list"></div>
+  </div>
+
+  <div class="content-wrap" id="view-mosaic" style="display:none">
+    <div style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;margin-bottom:6px">🖼️ Ma Bibliothèque</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:20px">Toutes tes couvertures · Clique pour voir le détail</div>
+    <div class="mosaic-grid" id="mosaic-grid"></div>
+  </div>
+
+  <div class="content-wrap" id="view-defi" style="display:none">
+    <div style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;margin-bottom:20px">🎯 Défi Lecture</div>
+    <div id="defi-wrap"></div>
   </div>
 
   <div class="content-wrap" id="view-stats" style="display:none">
@@ -845,6 +969,7 @@ function scHTML(s,q=''){
           ${s.auteur?`<span class="sc-author">${hl(s.auteur,q)}</span>`:''}
           ${s.genre?`<span class="sc-genre">· ${s.genre}</span>`:''}
           ${s.statut?`<span style="font-size:11px;color:var(--muted)">${SICONS[s.statut]||''} ${s.statut}</span>`:''}
+          ${s.tags&&s.tags.length?tagsHTML(s):''}
           ${nonLus>0?`<span style="font-size:10px;font-weight:700;color:var(--amber);background:var(--amber-light);padding:1px 6px;border-radius:5px">${nonLus} à lire</span>`:''}
         </div>
         <div class="sc-prog">
@@ -862,6 +987,7 @@ function scHTML(s,q=''){
         <button class="btn-xs" onclick="markAllRead(${s.id})">📖 Tout lu</button>
         <button class="btn-xs v" onclick="openEdit(${s.id})">✏️ Modifier</button>
         <button class="btn-xs" onclick="openDetail(${s.id})">🔎 Détail</button>
+        <button class="btn-xs" onclick="openTags(${s.id})">🏷️ Tags</button>
         <button class="btn-xs d" onclick="delSeries(${s.id})">🗑️</button>
       </div>
       <div class="total-inline">
@@ -1093,6 +1219,7 @@ function openDetail(id){
       <div class="detail-cell"><div class="detail-cell-label">Valeur estimée</div><div class="detail-cell-val">${val} €</div></div>
       <div class="detail-cell"><div class="detail-cell-label">Prix / tome</div><div class="detail-cell-val">${s.prix?s.prix+' €':'—'}</div></div>
     </div>
+    ${s.tags&&s.tags.length?`<div class="tags-row" style="margin-bottom:10px">${s.tags.map(t=>`<span class="tag-chip ${TAG_STYLES[t]||''}">${TAG_ICONS[t]||''} ${t}</span>`).join('')}</div>`:''}
     ${s.notes?`<div class="note-box">${s.notes}</div>`:''}
   `;
   document.getElementById('d-foot').innerHTML=`
@@ -1253,7 +1380,7 @@ document.addEventListener('keydown',e=>{
 
 function mobileNav(v, el){
   curView = v;
-  ['view-collection','view-pal','view-stats'].forEach(id=>{
+  ['view-collection','view-pal','view-stats','view-acheter','view-journal','view-mosaic','view-defi'].forEach(id=>{
     const e = document.getElementById(id);
     if(e) e.style.display='none';
   });
@@ -1264,11 +1391,13 @@ function mobileNav(v, el){
     const w=b.querySelector('.bn-icon-wrap');
     if(w) w.style.background='transparent';
   });
-  el.classList.add('active');
-  const w=el.querySelector('.bn-icon-wrap');
-  if(w) w.style.background='var(--violet-light)';
+  if(el){el.classList.add('active');const w=el.querySelector('.bn-icon-wrap');if(w)w.style.background='var(--violet-light)';}
   if(v==='stats') renderStats();
   else if(v==='pal') renderPAL();
+  else if(v==='acheter') renderAcheter();
+  else if(v==='journal') renderJournal();
+  else if(v==='mosaic') renderMosaic();
+  else if(v==='defi') renderDefi();
   else renderCollection();
 }
 
@@ -1278,8 +1407,255 @@ function updatePALBadge(){
   if(dot){dot.textContent=n;dot.style.display=n>0?'flex':'none';}
 }
 
+
+// ── TAGS ──
+let currentTagSerieId = null;
+const TAG_STYLES = {
+  'Prêté': 'tag-prete',
+  'Dédicacé': 'tag-dedicace',
+  'Édition spéciale': 'tag-edition-sp',
+  'Offert': 'tag-offert',
+  'Numéroté': 'tag-num'
+};
+const TAG_ICONS = {
+  'Prêté':'📤','Dédicacé':'✍️','Édition spéciale':'💎','Offert':'🎁','Numéroté':'🔢'
+};
+
+function openTags(sid){
+  currentTagSerieId = sid;
+  const s = series.find(x=>x.id===sid); if(!s) return;
+  document.getElementById('modal-tags-title').textContent = '🏷️ ' + s.nom;
+  renderModalTags(s);
+  openModal('modal-tags');
+}
+function renderModalTags(s){
+  const tags = s.tags||[];
+  document.getElementById('modal-tags-active').innerHTML = tags.length
+    ? tags.map(t=>`<span class="tag-chip ${TAG_STYLES[t]||''}">${TAG_ICONS[t]||''} ${t} <span class="tag-remove" onclick="removeTag(${s.id},'${t}')">✕</span></span>`).join('')
+    : '<span style="color:var(--muted);font-size:12px">Aucun tag</span>';
+}
+function toggleTag(tag){
+  const s = series.find(x=>x.id===currentTagSerieId); if(!s) return;
+  if(!s.tags) s.tags=[];
+  const idx = s.tags.indexOf(tag);
+  if(idx>=0) s.tags.splice(idx,1);
+  else s.tags.push(tag);
+  save(); renderModalTags(s); renderAll();
+  toast(idx>=0 ? `Tag retiré` : `🏷️ ${tag} ajouté`, null);
+}
+function removeTag(sid, tag){
+  const s = series.find(x=>x.id===sid); if(!s||!s.tags) return;
+  s.tags = s.tags.filter(t=>t!==tag);
+  save(); renderModalTags(s); renderAll();
+}
+function tagsHTML(s){
+  if(!s.tags||!s.tags.length) return '';
+  return '<div class="tags-row">' + s.tags.map(t=>`<span class="tag-chip ${TAG_STYLES[t]||''}">${TAG_ICONS[t]||''} ${t}</span>`).join('') + '</div>';
+}
+
+// ── À ACHETER ──
+function renderAcheter(){
+  const el = document.getElementById('acheter-list');
+  const toAcheter = series.filter(s => s.total > s.posses).sort((a,b)=>a.nom.localeCompare(b.nom,'fr'));
+  if(!toAcheter.length){
+    el.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--muted)"><div style="font-size:48px;margin-bottom:12px">🎉</div><div style="font-family:Space Grotesk,sans-serif;font-size:18px;font-weight:700;color:var(--ink)">Tout est complet !</div><div style="margin-top:6px;font-size:13px">Tu as tous les tomes de toutes tes séries.</div></div>';
+    return;
+  }
+  const tc = {Manga:'#8B6FFF',BD:'#00B8D4',Comics:'#FF4F6A'};
+  el.innerHTML = toAcheter.map(s=>{
+    const manquants = [];
+    for(let i=s.posses+1;i<=s.total;i++) manquants.push(i);
+    const c = s.color || tc[s.type] || '#888';
+    return `<div class="acheter-section">
+      <div class="acheter-serie-name">
+        <span style="width:10px;height:10px;border-radius:50%;background:${c};flex-shrink:0;display:inline-block"></span>
+        ${s.nom}
+        <span class="type-tag ${s.type}" style="margin-left:4px">${s.type}</span>
+        <span style="margin-left:auto;font-size:11px;color:var(--muted);font-weight:400">${manquants.length} tome${manquants.length>1?'s':''}</span>
+      </div>
+      <div class="acheter-tomes">
+        ${manquants.slice(0,20).map(n=>`<div class="acheter-tome" style="border-color:${c};color:${c}" onclick="buyTome(${s.id},${n})" title="Marquer tome ${n} comme possédé">T${n}</div>`).join('')}
+        ${manquants.length>20?`<span style="font-size:12px;color:var(--muted);padding:5px">+${manquants.length-20} autres</span>`:''}
+      </div>
+    </div>`;
+  }).join('<div style="height:1px;background:var(--border);margin:12px 0"></div>');
+}
+function buyTome(sid, tome){
+  const s = series.find(x=>x.id===sid); if(!s) return;
+  if(tome > s.posses){
+    s.posses = tome;
+    save(); renderAcheter(); updateSidebar();
+    toast(`📗 Tome ${tome} de ${s.nom} ajouté !`, s.color);
+    confetti(window.innerWidth/2, window.innerHeight/2, s.color);
+  }
+}
+
+// ── JOURNAL DE LECTURE ──
+let journal = [];
+function loadJournal(){
+  try{ journal = JSON.parse(localStorage.getItem('htz_journal'))||[]; }catch(e){ journal=[]; }
+}
+function saveJournal(){ localStorage.setItem('htz_journal', JSON.stringify(journal)); }
+
+function openJournalEntry(){
+  const sel = document.getElementById('j-serie');
+  sel.innerHTML = [...series].sort((a,b)=>a.nom.localeCompare(b.nom,'fr')).map(s=>`<option value="${s.id}">${s.nom}</option>`).join('');
+  document.getElementById('j-tomes').value = '';
+  document.getElementById('j-date').value = new Date().toISOString().slice(0,10);
+  document.getElementById('j-note').value = '';
+  openModal('modal-journal');
+}
+function saveJournalEntry(){
+  const sid = parseInt(document.getElementById('j-serie').value);
+  const tomesStr = document.getElementById('j-tomes').value.trim();
+  const date = document.getElementById('j-date').value;
+  const note = document.getElementById('j-note').value.trim();
+  if(!date){ toast('❗ Date obligatoire','#FF4F6A'); return; }
+  const s = series.find(x=>x.id===sid);
+  const entry = { id: Date.now(), serieId: sid, serieName: s?s.nom:'', tomes: tomesStr, date, note, added: Date.now() };
+  journal.unshift(entry);
+  saveJournal(); closeModal('modal-journal'); renderJournal();
+  toast('📅 Entrée ajoutée !', null);
+}
+function deleteJournalEntry(id){
+  journal = journal.filter(j=>j.id!==id);
+  saveJournal(); renderJournal();
+  toast('🗑️ Entrée supprimée', null);
+}
+function renderJournal(){
+  const el = document.getElementById('journal-list');
+  if(!journal.length){
+    el.innerHTML = '<div class="journal-empty">📖<br><br>Aucune entrée de lecture.<br>Commence à noter tes lectures !</div>';
+    return;
+  }
+  // Group by month
+  const groups = {};
+  journal.forEach(j=>{
+    const d = new Date(j.date);
+    const key = d.toLocaleDateString('fr-FR',{month:'long',year:'numeric'});
+    if(!groups[key]) groups[key]=[];
+    groups[key].push(j);
+  });
+  el.innerHTML = Object.entries(groups).map(([month, entries])=>`
+    <div style="font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin:16px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--border)">${month}</div>
+    ${entries.map(j=>{
+      const s = series.find(x=>x.id===j.serieId);
+      const d = new Date(j.date);
+      const color = s?.color||'#888';
+      return `<div class="journal-item">
+        <div class="journal-date">${d.toLocaleDateString('fr-FR',{day:'numeric',month:'short'})}</div>
+        <div style="width:4px;height:40px;border-radius:2px;background:${color};flex-shrink:0"></div>
+        <div class="journal-info">
+          <div class="journal-title">${j.serieName}${j.tomes?' — T'+j.tomes:''}</div>
+          ${j.note?`<div class="journal-sub">${j.note}</div>`:''}
+        </div>
+        <button onclick="deleteJournalEntry(${j.id})" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;flex-shrink:0">🗑️</button>
+      </div>`;
+    }).join('')}
+  `).join('');
+}
+
+// ── MOSAÏQUE ──
+function renderMosaic(){
+  const el = document.getElementById('mosaic-grid');
+  const tc = {Manga:'#8B6FFF',BD:'#00B8D4',Comics:'#FF4F6A'};
+  const te = {Manga:'⛩️',BD:'🎨',Comics:'💥'};
+  const sorted = [...series].sort((a,b)=>a.nom.localeCompare(b.nom,'fr'));
+  el.innerHTML = sorted.map(s=>{
+    const c = s.color||tc[s.type]||'#888';
+    return `<div class="mosaic-item" onclick="openDetail(${s.id})" title="${s.nom}">
+      ${s.cover
+        ? `<img src="${s.cover}" alt="${s.nom}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+        : ''}
+      <div class="mosaic-ph" style="background:${c}22;display:${s.cover?'none':'flex'}">${te[s.type]||'📖'}</div>
+      <div class="mosaic-overlay"></div>
+      <div class="mosaic-name">${s.nom}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── DÉFI LECTURE ──
+let defiGoal = 0;
+function loadDefi(){
+  try{ const d=JSON.parse(localStorage.getItem('htz_defi')||'{}'); defiGoal=d.goal||0; }catch(e){ defiGoal=0; }
+}
+function saveDefi(){ localStorage.setItem('htz_defi', JSON.stringify({goal:defiGoal})); }
+function renderDefi(){
+  const el = document.getElementById('defi-wrap');
+  const year = new Date().getFullYear();
+  // Count tomes read this year from journal
+  const thisYear = journal.filter(j=>j.date&&j.date.startsWith(year));
+  // Also count from tomes_lus (approximate - no date on these)
+  const totalLu = series.reduce((s,b)=>s+(b.tomes_lus?.length||0),0);
+  const journalCount = thisYear.reduce((acc,j)=>{
+    if(!j.tomes) return acc+1;
+    // Parse "1,2-5,7" format
+    let count=0;
+    j.tomes.split(',').forEach(part=>{
+      part=part.trim();
+      if(part.includes('-')){const[a,b]=part.split('-');count+=Math.max(0,parseInt(b)-parseInt(a)+1);}
+      else if(part) count+=1;
+    });
+    return acc+count;
+  },0);
+  const pct = defiGoal>0 ? Math.min(100,Math.round(journalCount/defiGoal*100)) : 0;
+  const milestones = [25,50,75,100].filter(m=>defiGoal>0&&Math.round(m/100*defiGoal)>0);
+  
+  el.innerHTML = `
+    <div class="defi-wrap">
+      <div class="defi-header">
+        <div class="defi-title">Défi ${year}</div>
+        <div class="defi-year" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:24px;color:var(--violet)">${journalCount}<span style="font-size:14px;color:var(--muted);font-weight:400"> / ${defiGoal||'?'}</span></div>
+      </div>
+      <div class="defi-progress-wrap">
+        <div class="defi-track">
+          <div class="defi-fill" style="width:${pct}%;background:linear-gradient(90deg,var(--violet),#5B9BFF)">
+            ${pct>5?`<div class="defi-pct">${pct}%</div>`:''}
+          </div>
+        </div>
+        <div class="defi-numbers">
+          <span>${journalCount} tome${journalCount>1?'s':''} via le journal de lecture</span>
+          <span>${defiGoal>journalCount?defiGoal-journalCount+' restants':defiGoal>0?'✅ Objectif atteint !':''}</span>
+        </div>
+      </div>
+      ${milestones.length?`<div class="defi-milestones">
+        ${milestones.map(m=>{const target=Math.round(m/100*defiGoal);const reached=journalCount>=target;return`<div class="defi-milestone${reached?' reached':''}">
+          ${reached?'✅':'🎯'} ${m}% — ${target} tomes
+        </div>`}).join('')}
+      </div>`:''}
+      <div class="defi-input-row">
+        <label>Mon objectif ${year} :</label>
+        <input class="defi-input" type="number" min="1" placeholder="50" value="${defiGoal||''}" 
+          onchange="defiGoal=parseInt(this.value)||0;saveDefi();renderDefi()">
+        <span style="font-size:12px;color:var(--muted)">tomes</span>
+      </div>
+    </div>
+    <div class="chart-box" style="margin-top:12px">
+      <div class="chart-box-title">📖 Collection complète — ${totalLu} tomes lus au total</div>
+      <div style="font-size:13px;color:var(--muted)">Utilise le Journal de lecture pour suivre ton défi ${year} avec les dates précises.</div>
+      <button class="btn-xs v" style="margin-top:12px" onclick="mobileNav('journal',document.getElementById('bn-more')||document.querySelector('.nav-item'));switchView('journal',document.querySelector('[onclick*=journal]'))">📅 Ouvrir le journal</button>
+    </div>
+  `;
+}
+
+// ── MORE MENU ──
+function toggleMoreMenu(){
+  const m = document.getElementById('more-menu');
+  m.classList.toggle('open');
+}
+// Close more menu when clicking elsewhere
+document.addEventListener('click', e=>{
+  const menu = document.getElementById('more-menu');
+  const btn = document.getElementById('bn-more');
+  if(menu&&!menu.contains(e.target)&&e.target!==btn&&!btn?.contains(e.target)){
+    menu.classList.remove('open');
+  }
+});
+
 // ── INIT ──
 load();
+loadJournal();
+loadDefi();
 if(!series.length)demo();
 renderAll();
 </script>
@@ -1294,12 +1670,88 @@ renderAll();
       <span class="bn-icon">🔖</span>
       <span class="bn-dot" id="bn-dot" style="display:none"></span>
     </div>
-    <span>Pile à lire</span>
+    <span>PAL</span>
   </button>
   <button class="bn-item" id="bn-stats" onclick="mobileNav('stats',this)">
     <div class="bn-icon-wrap"><span class="bn-icon">📊</span></div>
     <span>Stats</span>
   </button>
+  <button class="bn-item" id="bn-more" onclick="toggleMoreMenu()">
+    <div class="bn-icon-wrap"><span class="bn-icon">⋯</span></div>
+    <span>Plus</span>
+  </button>
+</div>
+
+
+<div class="more-menu" id="more-menu">
+  <button class="more-menu-item" onclick="mobileNav('acheter',document.getElementById('bn-more'));toggleMoreMenu()">
+    <span class="more-menu-icon">🛒</span>À acheter
+  </button>
+  <button class="more-menu-item" onclick="mobileNav('journal',document.getElementById('bn-more'));toggleMoreMenu()">
+    <span class="more-menu-icon">📅</span>Journal
+  </button>
+  <button class="more-menu-item" onclick="mobileNav('mosaic',document.getElementById('bn-more'));toggleMoreMenu()">
+    <span class="more-menu-icon">🖼️</span>Mosaïque
+  </button>
+  <button class="more-menu-item" onclick="mobileNav('defi',document.getElementById('bn-more'));toggleMoreMenu()">
+    <span class="more-menu-icon">🎯</span>Défi lecture
+  </button>
+</div>
+
+
+<!-- MODAL JOURNAL -->
+<div class="overlay" id="modal-journal" onclick="closeOv(event,'modal-journal')">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title">📅 Entrée de lecture</div>
+      <button class="modal-close" onclick="closeModal('modal-journal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="field"><label>Série</label>
+        <select id="j-serie" style="width:100%;padding:9px 13px;background:var(--surface);border:1.5px solid transparent;border-radius:10px;color:var(--ink);font-family:'DM Sans',sans-serif;font-size:14px;outline:none"></select>
+      </div>
+      <div class="field"><label>Tome(s) lu(s)</label>
+        <input id="j-tomes" type="text" placeholder="Ex: 1, 2-5, 7">
+      </div>
+      <div class="field"><label>Date de lecture</label>
+        <input class="journal-date-input" id="j-date" type="date">
+      </div>
+      <div class="field"><label>Note / Impression</label>
+        <textarea id="j-note" placeholder="Tes impressions sur cette session..."></textarea>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-modal btn-cancel" onclick="closeModal('modal-journal')">Annuler</button>
+      <button class="btn-modal btn-save" onclick="saveJournalEntry()">💾 Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL TAGS -->
+<div class="overlay" id="modal-tags" onclick="closeOv(event,'modal-tags')">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title" id="modal-tags-title">🏷️ Tags</div>
+      <button class="modal-close" onclick="closeModal('modal-tags')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="font-size:13px;color:var(--muted);margin-bottom:12px">Sélectionne les tags pour cette série :</div>
+      <div class="tag-picker">
+        <button class="tag-picker-btn tag-prete" onclick="toggleTag('Prêté')">📤 Prêté</button>
+        <button class="tag-picker-btn tag-dedicace" onclick="toggleTag('Dédicacé')">✍️ Dédicacé</button>
+        <button class="tag-picker-btn tag-edition-sp" onclick="toggleTag('Édition spéciale')">💎 Édition spéciale</button>
+        <button class="tag-picker-btn tag-offert" onclick="toggleTag('Offert')">🎁 Offert</button>
+        <button class="tag-picker-btn tag-num" onclick="toggleTag('Numéroté')">🔢 Numéroté</button>
+      </div>
+      <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:8px">Tags actifs :</div>
+        <div class="tags-row" id="modal-tags-active"></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-modal btn-cancel" onclick="closeModal('modal-tags')">Fermer</button>
+    </div>
+  </div>
 </div>
 
 </body>
