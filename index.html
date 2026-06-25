@@ -406,6 +406,12 @@ mark{background:rgba(27,110,243,.15);color:#5B9BFF;border-radius:3px;padding:0 2
 .tag-picker{display:flex;gap:5px;flex-wrap:wrap;padding:10px 0}
 .tag-picker-btn{padding:5px 12px;border-radius:20px;border:1.5px solid var(--border);background:var(--white);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
 .tag-picker-btn:hover{border-color:var(--violet);color:var(--violet)}
+/* TOP PICKER */
+.top-pick-btn{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:8px;border:1.5px solid var(--border);background:var(--white);color:var(--ink);font-family:DM Sans,sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;width:100%;text-align:left}
+.top-pick-btn:hover{border-color:var(--violet);background:var(--violet-light);color:var(--violet)}
+.top-picker-search{width:100%;padding:9px 13px;background:var(--surface);border:1.5px solid transparent;border-radius:10px;color:var(--ink);font-family:DM Sans,sans-serif;font-size:14px;outline:none;transition:all .2s;margin-bottom:10px}
+.top-picker-search:focus{background:var(--white);border-color:var(--violet)}
+#top-picker-list{display:flex;flex-direction:column;gap:5px;max-height:340px;overflow-y:auto}
 
 /* ── À ACHETER ── */
 .acheter-section{margin-bottom:20px}
@@ -790,11 +796,41 @@ function updateHero(){
 
 // ── TOP PERSO ──
 function getTop(){
-  const noted=series.filter(s=>s.note>0);
+  // Seules les séries explicitement ajoutées au top (via topOrder)
   const ordered=[];
-  topOrder.forEach(id=>{const s=noted.find(x=>x.id===id);if(s)ordered.push(s)});
-  noted.forEach(s=>{if(!topOrder.includes(s.id))ordered.push(s)});
+  topOrder.forEach(id=>{const s=series.find(x=>x.id===id);if(s)ordered.push(s)});
   return ordered.slice(0,10);
+}
+function openTopPicker(){
+  const inTop=new Set(topOrder);
+  const available=series.filter(s=>!inTop.has(s.id));
+  if(!available.length){toast('Toutes tes séries sont déjà dans le top !','#FF6B00');return;}
+  const modal=document.getElementById('modal-top-picker');
+  document.getElementById('top-picker-list').innerHTML=available
+    .sort((a,b)=>a.nom.localeCompare(b.nom,'fr'))
+    .map(s=>`<button class="top-pick-btn" onclick="addToTop(${s.id})">
+      <span style="width:10px;height:10px;border-radius:3px;background:${s.color||'#1B6EF3'};flex-shrink:0;display:inline-block"></span>
+      <span style="flex:1;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${s.nom}</span>
+      <span style="font-size:10px;color:var(--muted);flex-shrink:0">${s.type}</span>
+    </button>`).join('');
+  document.getElementById('top-picker-search').value='';
+  openModal('modal-top-picker');
+}
+function filterTopPicker(){
+  const q=document.getElementById('top-picker-search').value.toLowerCase();
+  document.querySelectorAll('.top-pick-btn').forEach(btn=>{
+    btn.style.display=btn.textContent.toLowerCase().includes(q)?'flex':'none';
+  });
+}
+function addToTop(id){
+  if(!topOrder.includes(id))topOrder.push(id);
+  save();closeModal('modal-top-picker');renderTopPerso();
+  toast('⭐ Ajouté au classement !','#FFD700');
+}
+function removeFromTop(id){
+  topOrder=topOrder.filter(x=>x!==id);
+  save();renderTopPerso();
+  toast('Retiré du classement','#FF4F6A');
 }
 function saveTopOrder(arr){topOrder=arr.map(s=>s.id);save()}
 let topDragSrc=null;
@@ -831,26 +867,39 @@ function renderTopPerso(){
   const el=document.getElementById('top-perso-list');
   if(!el)return;
   const arr=getTop();
-  if(!arr.length){el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:8px 0">Note tes séries avec ⭐ pour les voir ici !</div>';return}
   const rc=['r1','r2','r3','','','','','','',''];
-  el.innerHTML=arr.map((s,i)=>`<div class="top-drag-item" data-id="${s.id}" draggable="true"
-    style="display:flex;align-items:center;gap:10px;padding:9px 6px;border-bottom:1px solid var(--border);cursor:grab;transition:background .15s;border-radius:6px"
-    ondragstart="topDragStart(event,${s.id})"
-    ondragover="topDragOver(event)"
-    ondragleave="topDragLeave(event)"
-    ondrop="topDrop(event,${s.id})"
-    ondragend="topDragEnd()">
-    <span style="color:var(--muted);font-size:14px;flex-shrink:0">⠿</span>
-    <div class="top-rank ${rc[i]}" style="flex-shrink:0">${i+1}</div>
-    <div class="top-info" style="flex:1;min-width:0">
-      <div class="top-name">${s.nom}</div>
-      <div class="top-sub">${s.auteur||s.type} · ${'⭐'.repeat(s.note)}</div>
-    </div>
-    <input type="number" min="1" max="${arr.length}" value="${i+1}"
-      style="width:38px;padding:4px;background:var(--surface);border:1px solid var(--border);border-radius:7px;color:var(--ink);font-family:Space Grotesk,sans-serif;font-size:12px;font-weight:700;text-align:center;outline:none;flex-shrink:0"
-      onclick="event.stopPropagation()"
-      onchange="topReorder(${s.id},parseInt(this.value)-1,${arr.length})">
-  </div>`).join('');
+  let html=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+    ${arr.length?`<span style="font-size:12px;color:var(--muted)">${arr.length}/10 séries</span>`:'<span></span>'}
+    <button onclick="openTopPicker()" style="display:flex;align-items:center;gap:5px;padding:6px 13px;background:var(--violet);border:none;border-radius:8px;color:#fff;font-family:DM Sans,sans-serif;font-size:12px;font-weight:600;cursor:pointer">＋ Ajouter une série</button>
+  </div>`;
+  if(!arr.length){
+    html+='<div style="color:var(--muted);font-size:13px;padding:12px 0;text-align:center">Ton classement est vide — clique sur <strong>＋ Ajouter une série</strong> pour commencer !</div>';
+  } else {
+    html+=arr.map((s,i)=>`<div class="top-drag-item" data-id="${s.id}" draggable="true"
+      style="display:flex;align-items:center;gap:10px;padding:9px 6px;border-bottom:1px solid var(--border);cursor:grab;transition:background .15s;border-radius:6px"
+      ondragstart="topDragStart(event,${s.id})"
+      ondragover="topDragOver(event)"
+      ondragleave="topDragLeave(event)"
+      ondrop="topDrop(event,${s.id})"
+      ondragend="topDragEnd()">
+      <span style="color:var(--muted);font-size:14px;flex-shrink:0">⠿</span>
+      <div class="top-rank ${rc[i]}" style="flex-shrink:0">${i+1}</div>
+      <div style="width:8px;height:8px;border-radius:50%;background:${s.color||'#1B6EF3'};flex-shrink:0"></div>
+      <div class="top-info" style="flex:1;min-width:0">
+        <div class="top-name">${s.nom}</div>
+        <div class="top-sub">${s.type}${s.note?' · '+'⭐'.repeat(s.note):''}</div>
+      </div>
+      <input type="number" min="1" max="${arr.length}" value="${i+1}"
+        style="width:38px;padding:4px;background:var(--surface);border:1px solid var(--border);border-radius:7px;color:var(--ink);font-family:Space Grotesk,sans-serif;font-size:12px;font-weight:700;text-align:center;outline:none;flex-shrink:0"
+        onclick="event.stopPropagation()"
+        onchange="topReorder(${s.id},parseInt(this.value)-1,${arr.length})">
+      <button onclick="removeFromTop(${s.id})" title="Retirer"
+        style="width:24px;height:24px;border-radius:50%;border:none;background:var(--surface2);color:var(--muted);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s"
+        onmouseover="this.style.background='var(--coral-light)';this.style.color='var(--coral)'"
+        onmouseout="this.style.background='var(--surface2)';this.style.color='var(--muted)'">✕</button>
+    </div>`).join('');
+  }
+  el.innerHTML=html;
 }
 
 // ── PAL helpers ──
@@ -1329,7 +1378,7 @@ function renderStats(){
 
 // ── IMPORT/EXPORT ──
 function exportData(){
-  const blob=new Blob([JSON.stringify({series,palOrder},null,2)],{type:'application/json'});
+  const blob=new Blob([JSON.stringify({series,palOrder,topOrder},null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);
   a.download=`inkbox_${new Date().toISOString().slice(0,10)}.json`;a.click();
   toast('📤 Export téléchargé !','#1B6EF3');
@@ -1750,6 +1799,20 @@ renderAll();
     </div>
     <div class="modal-foot">
       <button class="btn-modal btn-cancel" onclick="closeModal('modal-tags')">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL TOP PICKER -->
+<div class="overlay" id="modal-top-picker" onclick="closeOv(event,'modal-top-picker')">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title">⭐ Ajouter au classement</div>
+      <button class="modal-close" onclick="closeModal('modal-top-picker')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input class="top-picker-search" id="top-picker-search" placeholder="🔍 Rechercher une série..." oninput="filterTopPicker()">
+      <div id="top-picker-list"></div>
     </div>
   </div>
 </div>
