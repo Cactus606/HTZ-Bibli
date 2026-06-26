@@ -463,14 +463,106 @@ body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;disp
 .dleg{display:flex;align-items:center;gap:7px;font-size:12px}
 .dleg-sq{width:10px;height:10px;border-radius:3px;flex-shrink:0}
 .dleg-pct{margin-left:auto;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;color:var(--muted)}
-.top-row{display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid var(--border)}
-.top-row:last-child{border:none;padding-bottom:0}
-.top-rank{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:800;color:var(--surface2);width:24px;flex-shrink:0}
-.r1{color:#F0C040}.r2{color:#A0A8B8}.r3{color:#C87B35}
+/* ── Classements version ultime ── */
+@keyframes row-in{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}
+@keyframes podium-glow{0%,100%{box-shadow:0 0 12px rgba(var(--pod-rgb),.3)}50%{box-shadow:0 0 24px rgba(var(--pod-rgb),.6),0 4px 16px rgba(var(--pod-rgb),.2)}}
+
+.top-row{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 12px;
+  border-radius:10px;
+  margin-bottom:5px;
+  transition:all .2s;
+  opacity:0;animation:row-in .35s ease both;
+  position:relative;overflow:hidden;
+  background:rgba(0,0,0,.02);
+  border:1px solid transparent;
+}
+.top-row:last-child{margin-bottom:0}
+.top-row::before{
+  content:'';
+  position:absolute;left:0;top:0;bottom:0;width:3px;
+  border-radius:10px 0 0 10px;
+  background:var(--row-color,rgba(0,0,0,.1));
+  opacity:0;transition:opacity .2s;
+}
+.top-row:hover{
+  background:rgba(var(--row-rgb,27,110,243),.04);
+  border-color:rgba(var(--row-rgb,27,110,243),.12);
+}
+.top-row:hover::before{opacity:1}
+
+/* Rangs */
+.top-rank{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:13px;font-weight:800;
+  width:28px;height:28px;
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  background:rgba(0,0,0,.05);
+  color:#94A3B8;
+  transition:all .2s;
+}
+/* Podium medals */
+.r1{
+  background:linear-gradient(135deg,#FFF8DC,#F0C040);
+  color:#92400E;
+  box-shadow:0 2px 8px rgba(240,192,64,.4);
+  font-size:12px;
+  --pod-rgb:240,192,64;
+  animation:podium-glow 3s ease-in-out infinite;
+}
+.r2{
+  background:linear-gradient(135deg,#F1F5F9,#CBD5E1);
+  color:#475569;
+  box-shadow:0 2px 8px rgba(203,213,225,.5);
+  font-size:12px;
+}
+.r3{
+  background:linear-gradient(135deg,#FEF3C7,#C87B35);
+  color:#fff;
+  box-shadow:0 2px 8px rgba(200,123,53,.4);
+  font-size:12px;
+}
+
+/* Cover miniature dans le classement */
+.top-cover{
+  width:30px;height:40px;
+  border-radius:5px;flex-shrink:0;overflow:hidden;
+  box-shadow:0 2px 6px rgba(0,0,0,.15);
+}
+.top-cover img{width:100%;height:100%;object-fit:cover}
+.top-cover-ph{
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;
+}
+
 .top-info{flex:1;min-width:0}
-.top-name{font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.top-sub{font-size:11px;color:var(--muted);margin-top:1px}
-.top-val{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;color:var(--ink)}
+.top-name{
+  font-size:13px;font-weight:700;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  color:#0F172A;letter-spacing:-.1px;
+}
+.top-sub{font-size:10px;color:#94A3B8;margin-top:2px;font-weight:500}
+
+/* Valeur avec accent coloré */
+.top-val{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:13px;font-weight:800;
+  color:var(--row-color,#0F172A);
+  white-space:nowrap;
+  padding:3px 8px;border-radius:6px;
+  background:rgba(var(--row-rgb,0,0,0),.06);
+}
+
+/* Animation delays */
+.top-row:nth-child(1){animation-delay:.05s}
+.top-row:nth-child(2){animation-delay:.1s}
+.top-row:nth-child(3){animation-delay:.15s}
+.top-row:nth-child(4){animation-delay:.2s}
+.top-row:nth-child(5){animation-delay:.25s}
 .comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:7px}
 .comp-row{display:flex;align-items:center;gap:9px;padding:8px 11px;background:var(--surface);border-radius:8px}
 .comp-name{flex:1;font-size:12px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -2105,6 +2197,26 @@ function renderStats(){
   const top5t=getSorted([...series]).filter(s=>s.posses>0).slice(0,5);
   const top5n=[...series].filter(s=>s.note).sort((a,b)=>b.note-a.note).slice(0,5);
   const rc=['r1','r2','r3','',''];
+  // Helper top-row avec cover + couleur
+  const topRow=(s,i,val,sub)=>{
+    const rc2=['r1','r2','r3','',''];
+    const medals=['🥇','🥈','🥉'];
+    const rankContent=i<3?medals[i]:(i+1);
+    const rgb=s.color?(()=>{const m=(s.color||'').match(/#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})/);return m?`${parseInt(m[1],16)},${parseInt(m[2],16)},${parseInt(m[3],16)}`:'27,110,243'})():'27,110,243';
+    const coverHTML=s.cover
+      ?`<div class="top-cover"><img src="${s.cover}" onerror="this.parentElement.innerHTML='<div class=top-cover-ph>${TE[s.type]||'📖'}</div>'"></div>`
+      :`<div class="top-cover"><div class="top-cover-ph" style="background:${s.color}18">${TE[s.type]||'📖'}</div></div>`;
+    return`<div class="top-row" style="--row-color:${s.color||'#1B6EF3'};--row-rgb:${rgb}">
+      <div class="top-rank ${rc2[i]}">${rankContent}</div>
+      ${coverHTML}
+      <div class="top-info">
+        <div class="top-name">${s.nom}</div>
+        <div class="top-sub">${sub}</div>
+      </div>
+      <div class="top-val">${val}</div>
+    </div>`;
+  };
+
   const withTotal=series.filter(s=>s.total>0).sort((a,b)=>(b.posses/b.total)-(a.posses/a.total));
   // Top pages
   const topPages=[...series].sort((a,b)=>{const pa=(a.pages||PAGES_DEF[a.type]||192)*(a.tomes_lus?.length||0);const pb=(b.pages||PAGES_DEF[b.type]||192)*(b.tomes_lus?.length||0);return pb-pa}).slice(0,5);
@@ -2134,12 +2246,12 @@ function renderStats(){
     </div>
     <div class="chart-box">
       <div class="chart-box-title">📄 Top — Pages lues</div>
-      ${topPages.map((s,i)=>{const p=(s.pages||PAGES_DEF[s.type]||192)*(s.tomes_lus?.length||0);return`<div class="top-row"><div class="top-rank ${rc[i]}">${i+1}</div><div class="top-info"><div class="top-name">${s.nom}</div><div class="top-sub">${(s.tomes_lus?.length||0)} tomes lus</div></div><div class="top-val">${p.toLocaleString('fr')} p.</div></div>`}).join('')}
+      ${topPages.map((s,i)=>{const p=(s.pages||PAGES_DEF[s.type]||192)*(s.tomes_lus?.length||0);return topRow(s,i,p>=1000?(p/1000).toFixed(1)+'k p.':p+' p.',(s.tomes_lus?.length||0)+' tomes lus')}).join('')}
     </div>
 
     <div class="chart-box">
       <div class="chart-box-title">⚖️ Top — Plus lourd</div>
-      ${[...series].sort((a,b)=>{return(b.posses*(b.poids||POIDS_DEF[b.type]||185))-(a.posses*(a.poids||POIDS_DEF[a.type]||185))}).slice(0,5).map((s,i)=>{const p=s.posses*(s.poids||POIDS_DEF[s.type]||185);return`<div class="top-row"><div class="top-rank ${rc[i]}">${i+1}</div><div class="top-info"><div class="top-name">${s.nom}</div><div class="top-sub">${s.posses} tomes · ${s.poids||POIDS_DEF[s.type]}g/tome</div></div><div class="top-val">${p>=1000?(p/1000).toFixed(1)+'kg':p+'g'}</div></div>`}).join('')}
+      ${[...series].sort((a,b)=>(b.posses*(b.poids||POIDS_DEF[b.type]||185))-(a.posses*(a.poids||POIDS_DEF[a.type]||185))).slice(0,5).map((s,i)=>{const p=s.posses*(s.poids||POIDS_DEF[s.type]||185);return topRow(s,i,p>=1000?(p/1000).toFixed(1)+'kg':p+'g',s.posses+' tomes · '+(s.poids||POIDS_DEF[s.type])+'g/tome')}).join('')}
     </div>
     <div class="chart-box full" id="omnibus-box">
       <div class="chart-box-title" style="display:flex;align-items:center;justify-content:space-between">
@@ -2258,9 +2370,9 @@ function renderOmnibus(){
       ondragleave="omnDragLeave(event)"
       ondrop="omnDrop(event,${s.id})"
       ondragend="omnDragEnd()">
-      <span style="color:var(--muted);font-size:14px;flex-shrink:0">⠿</span>
-      <div class="top-rank ${rc[i]||''}" style="flex-shrink:0">${i+1}</div>
-      <div style="width:8px;height:8px;border-radius:50%;background:${s.color||'#1B6EF3'};flex-shrink:0"></div>
+      <span style="color:#CBD5E1;font-size:16px;flex-shrink:0;cursor:grab">⠿</span>
+      <div class="top-rank ${rc[i]||''}" style="flex-shrink:0">${i<3?['🥇','🥈','🥉'][i]:(i+1)}</div>
+      ${s.cover?`<div style="width:28px;height:38px;border-radius:5px;overflow:hidden;flex-shrink:0;box-shadow:0 2px 6px rgba(0,0,0,.15)"><img src="${s.cover}" style="width:100%;height:100%;object-fit:cover"></div>`:`<div style="width:28px;height:38px;border-radius:5px;background:${s.color||'#1B6EF3'}18;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">${TE[s.type]||'📖'}</div>`}
       <div class="top-info" style="flex:1;min-width:0">
         <div class="top-name">${s.nom}</div>
         <div class="top-sub">${s.type} · ${s.posses} tome${s.posses>1?'s':''} · ${(s.posses*(parseFloat(s.prix)||0)).toFixed(0)}€</div>
