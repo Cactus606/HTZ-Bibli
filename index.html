@@ -401,17 +401,31 @@ mark{background:rgba(27,110,243,.15);color:#5B9BFF;border-radius:3px;padding:0 2
 .tag-offert{background:#DCFCE7;color:#16A34A;border-color:#BBF7D0}
 .tag-num{background:#DBEAFE;color:#1D4ED8;border-color:#BFDBFE}
 .tag-remove{cursor:pointer;opacity:.6;font-size:11px}
+.tag-vo-single{background:#0F172A;color:#38BDF8;border-color:#38BDF8}
+.tag-vo-tpb{background:#0F172A;color:#A78BFA;border-color:#A78BFA}
+/* ── WISHLIST ── */
+.wish-item{display:flex;align-items:flex-start;gap:10px;padding:12px 8px;border-bottom:1px solid var(--border);border-radius:6px;cursor:grab;transition:background .15s}
+.wish-item:hover{background:var(--surface)}
+.wish-meta{flex:1;min-width:0}
+.wish-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wish-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.wish-price{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:15px;color:var(--amber);flex-shrink:0}
+.wish-del{width:24px;height:24px;border-radius:50%;border:none;background:var(--surface2);color:var(--muted);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+.wish-del:hover{background:var(--coral-light);color:var(--coral)}
+.wish-total{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:16px;color:var(--violet);margin-top:16px;padding:12px 16px;background:var(--violet-light);border-radius:10px;display:flex;justify-content:space-between;align-items:center}
+.wish-add-form{display:flex;flex-direction:column;gap:8px;padding:14px;background:var(--surface);border-radius:12px;margin-bottom:16px}
+.wish-add-row{display:flex;gap:8px}
+.wish-input{flex:1;padding:9px 13px;background:var(--white);border:1.5px solid var(--border);border-radius:10px;color:var(--ink);font-family:DM Sans,sans-serif;font-size:13px;outline:none;transition:border-color .2s}
+.wish-input:focus{border-color:var(--violet)}
+.wish-price-input{width:90px;padding:9px 13px;background:var(--white);border:1.5px solid var(--border);border-radius:10px;color:var(--ink);font-family:DM Sans,sans-serif;font-size:13px;outline:none;transition:border-color .2s}
+.wish-price-input:focus{border-color:var(--amber)}
+.wish-type-sel{padding:9px 10px;background:var(--white);border:1.5px solid var(--border);border-radius:10px;color:var(--ink);font-family:DM Sans,sans-serif;font-size:13px;outline:none}
+.acheter-total{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:16px;color:var(--acid);margin-top:16px;padding:12px 16px;background:var(--surface);border-radius:10px;display:flex;justify-content:space-between;align-items:center;border:1.5px solid var(--border)}
 .tag-remove:hover{opacity:1}
 .tags-row{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
 .tag-picker{display:flex;gap:5px;flex-wrap:wrap;padding:10px 0}
 .tag-picker-btn{padding:5px 12px;border-radius:20px;border:1.5px solid var(--border);background:var(--white);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
 .tag-picker-btn:hover{border-color:var(--violet);color:var(--violet)}
-/* TOP PICKER */
-.top-pick-btn{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:8px;border:1.5px solid var(--border);background:var(--white);color:var(--ink);font-family:DM Sans,sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;width:100%;text-align:left}
-.top-pick-btn:hover{border-color:var(--violet);background:var(--violet-light);color:var(--violet)}
-.top-picker-search{width:100%;padding:9px 13px;background:var(--surface);border:1.5px solid transparent;border-radius:10px;color:var(--ink);font-family:DM Sans,sans-serif;font-size:14px;outline:none;transition:all .2s;margin-bottom:10px}
-.top-picker-search:focus{background:var(--white);border-color:var(--violet)}
-#top-picker-list{display:flex;flex-direction:column;gap:5px;max-height:340px;overflow-y:auto}
 
 /* ── À ACHETER ── */
 .acheter-section{margin-bottom:20px}
@@ -515,6 +529,9 @@ mark{background:rgba(27,110,243,.15);color:#5B9BFF;border-radius:3px;padding:0 2
     <button class="nav-item" onclick="switchView('acheter',this)">
       <span class="nav-icon">🛒</span><span>À acheter</span>
     </button>
+    <button class="nav-item" onclick="switchView('wishlist',this)">
+      <span class="nav-icon">⭐</span><span>Wishlist</span>
+    </button>
     <button class="nav-item" onclick="switchView('journal',this)">
       <span class="nav-icon">📅</span><span>Journal</span>
     </button>
@@ -601,6 +618,28 @@ mark{background:rgba(27,110,243,.15);color:#5B9BFF;border-radius:3px;padding:0 2
     <div style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;margin-bottom:6px">🛒 À acheter</div>
     <div style="font-size:13px;color:var(--muted);margin-bottom:20px">Tomes manquants dans tes séries · Clique pour marquer possédé</div>
     <div id="acheter-list"></div>
+  </div>
+
+  <div class="content-wrap" id="view-wishlist" style="display:none">
+    <div style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;margin-bottom:4px">⭐ Wishlist</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:16px">Séries et tomes à acquérir · Glisse pour réordonner la priorité</div>
+    <div class="wish-add-form">
+      <div class="wish-add-row">
+        <input class="wish-input" id="wish-title" placeholder="Titre (série ou tome)">
+        <input class="wish-price-input" id="wish-price" type="number" placeholder="Prix €" min="0" step="0.01">
+      </div>
+      <div class="wish-add-row">
+        <select class="wish-type-sel" id="wish-type">
+          <option value="BD">BD</option>
+          <option value="Comics">Comics</option>
+          <option value="Manga">Manga</option>
+          <option value="Autre">Autre</option>
+        </select>
+        <input class="wish-input" id="wish-note" placeholder="Note (ex: T3, intégrale, éditeur…)">
+        <button onclick="addWishItem()" style="padding:9px 16px;background:var(--violet);border:none;border-radius:10px;color:#fff;font-family:DM Sans,sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap">＋ Ajouter</button>
+      </div>
+    </div>
+    <div id="wish-list"></div>
   </div>
 
   <div class="content-wrap" id="view-journal" style="display:none">
@@ -748,6 +787,7 @@ function load(){
 }
 function save(){
   localStorage.setItem(KEY,JSON.stringify({series,palOrder,topOrder}));
+  saveWishlist();
 }
 
 function demo(){series=[];palOrder=[];save();}
@@ -796,41 +836,11 @@ function updateHero(){
 
 // ── TOP PERSO ──
 function getTop(){
-  // Seules les séries explicitement ajoutées au top (via topOrder)
+  const noted=series.filter(s=>s.note>0);
   const ordered=[];
-  topOrder.forEach(id=>{const s=series.find(x=>x.id===id);if(s)ordered.push(s)});
+  topOrder.forEach(id=>{const s=noted.find(x=>x.id===id);if(s)ordered.push(s)});
+  noted.forEach(s=>{if(!topOrder.includes(s.id))ordered.push(s)});
   return ordered.slice(0,10);
-}
-function openTopPicker(){
-  const inTop=new Set(topOrder);
-  const available=series.filter(s=>!inTop.has(s.id));
-  if(!available.length){toast('Toutes tes séries sont déjà dans le top !','#FF6B00');return;}
-  const modal=document.getElementById('modal-top-picker');
-  document.getElementById('top-picker-list').innerHTML=available
-    .sort((a,b)=>a.nom.localeCompare(b.nom,'fr'))
-    .map(s=>`<button class="top-pick-btn" onclick="addToTop(${s.id})">
-      <span style="width:10px;height:10px;border-radius:3px;background:${s.color||'#1B6EF3'};flex-shrink:0;display:inline-block"></span>
-      <span style="flex:1;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${s.nom}</span>
-      <span style="font-size:10px;color:var(--muted);flex-shrink:0">${s.type}</span>
-    </button>`).join('');
-  document.getElementById('top-picker-search').value='';
-  openModal('modal-top-picker');
-}
-function filterTopPicker(){
-  const q=document.getElementById('top-picker-search').value.toLowerCase();
-  document.querySelectorAll('.top-pick-btn').forEach(btn=>{
-    btn.style.display=btn.textContent.toLowerCase().includes(q)?'flex':'none';
-  });
-}
-function addToTop(id){
-  if(!topOrder.includes(id))topOrder.push(id);
-  save();closeModal('modal-top-picker');renderTopPerso();
-  toast('⭐ Ajouté au classement !','#FFD700');
-}
-function removeFromTop(id){
-  topOrder=topOrder.filter(x=>x!==id);
-  save();renderTopPerso();
-  toast('Retiré du classement','#FF4F6A');
 }
 function saveTopOrder(arr){topOrder=arr.map(s=>s.id);save()}
 let topDragSrc=null;
@@ -867,39 +877,26 @@ function renderTopPerso(){
   const el=document.getElementById('top-perso-list');
   if(!el)return;
   const arr=getTop();
+  if(!arr.length){el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:8px 0">Note tes séries avec ⭐ pour les voir ici !</div>';return}
   const rc=['r1','r2','r3','','','','','','',''];
-  let html=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-    ${arr.length?`<span style="font-size:12px;color:var(--muted)">${arr.length}/10 séries</span>`:'<span></span>'}
-    <button onclick="openTopPicker()" style="display:flex;align-items:center;gap:5px;padding:6px 13px;background:var(--violet);border:none;border-radius:8px;color:#fff;font-family:DM Sans,sans-serif;font-size:12px;font-weight:600;cursor:pointer">＋ Ajouter une série</button>
-  </div>`;
-  if(!arr.length){
-    html+='<div style="color:var(--muted);font-size:13px;padding:12px 0;text-align:center">Ton classement est vide — clique sur <strong>＋ Ajouter une série</strong> pour commencer !</div>';
-  } else {
-    html+=arr.map((s,i)=>`<div class="top-drag-item" data-id="${s.id}" draggable="true"
-      style="display:flex;align-items:center;gap:10px;padding:9px 6px;border-bottom:1px solid var(--border);cursor:grab;transition:background .15s;border-radius:6px"
-      ondragstart="topDragStart(event,${s.id})"
-      ondragover="topDragOver(event)"
-      ondragleave="topDragLeave(event)"
-      ondrop="topDrop(event,${s.id})"
-      ondragend="topDragEnd()">
-      <span style="color:var(--muted);font-size:14px;flex-shrink:0">⠿</span>
-      <div class="top-rank ${rc[i]}" style="flex-shrink:0">${i+1}</div>
-      <div style="width:8px;height:8px;border-radius:50%;background:${s.color||'#1B6EF3'};flex-shrink:0"></div>
-      <div class="top-info" style="flex:1;min-width:0">
-        <div class="top-name">${s.nom}</div>
-        <div class="top-sub">${s.type}${s.note?' · '+'⭐'.repeat(s.note):''}</div>
-      </div>
-      <input type="number" min="1" max="${arr.length}" value="${i+1}"
-        style="width:38px;padding:4px;background:var(--surface);border:1px solid var(--border);border-radius:7px;color:var(--ink);font-family:Space Grotesk,sans-serif;font-size:12px;font-weight:700;text-align:center;outline:none;flex-shrink:0"
-        onclick="event.stopPropagation()"
-        onchange="topReorder(${s.id},parseInt(this.value)-1,${arr.length})">
-      <button onclick="removeFromTop(${s.id})" title="Retirer"
-        style="width:24px;height:24px;border-radius:50%;border:none;background:var(--surface2);color:var(--muted);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s"
-        onmouseover="this.style.background='var(--coral-light)';this.style.color='var(--coral)'"
-        onmouseout="this.style.background='var(--surface2)';this.style.color='var(--muted)'">✕</button>
-    </div>`).join('');
-  }
-  el.innerHTML=html;
+  el.innerHTML=arr.map((s,i)=>`<div class="top-drag-item" data-id="${s.id}" draggable="true"
+    style="display:flex;align-items:center;gap:10px;padding:9px 6px;border-bottom:1px solid var(--border);cursor:grab;transition:background .15s;border-radius:6px"
+    ondragstart="topDragStart(event,${s.id})"
+    ondragover="topDragOver(event)"
+    ondragleave="topDragLeave(event)"
+    ondrop="topDrop(event,${s.id})"
+    ondragend="topDragEnd()">
+    <span style="color:var(--muted);font-size:14px;flex-shrink:0">⠿</span>
+    <div class="top-rank ${rc[i]}" style="flex-shrink:0">${i+1}</div>
+    <div class="top-info" style="flex:1;min-width:0">
+      <div class="top-name">${s.nom}</div>
+      <div class="top-sub">${s.auteur||s.type} · ${'⭐'.repeat(s.note)}</div>
+    </div>
+    <input type="number" min="1" max="${arr.length}" value="${i+1}"
+      style="width:38px;padding:4px;background:var(--surface);border:1px solid var(--border);border-radius:7px;color:var(--ink);font-family:Space Grotesk,sans-serif;font-size:12px;font-weight:700;text-align:center;outline:none;flex-shrink:0"
+      onclick="event.stopPropagation()"
+      onchange="topReorder(${s.id},parseInt(this.value)-1,${arr.length})">
+  </div>`).join('');
 }
 
 // ── PAL helpers ──
@@ -1376,9 +1373,81 @@ function renderStats(){
   setTimeout(()=>{renderTopPerso()},0);
 }
 
+// ── WISHLIST ──
+let wishlist = [];
+let wishDragIdx = null;
+
+function loadWishlist(){
+  try{ wishlist = JSON.parse(localStorage.getItem('htz_wishlist'))||[]; }catch(e){ wishlist=[]; }
+}
+function saveWishlist(){ localStorage.setItem('htz_wishlist', JSON.stringify(wishlist)); }
+
+function addWishItem(){
+  const title = document.getElementById('wish-title').value.trim();
+  const price = parseFloat(document.getElementById('wish-price').value)||0;
+  const type  = document.getElementById('wish-type').value;
+  const note  = document.getElementById('wish-note').value.trim();
+  if(!title){ toast('Indique un titre !','#FF4F6A'); return; }
+  wishlist.push({ id: Date.now(), title, price, type, note });
+  saveWishlist();
+  document.getElementById('wish-title').value='';
+  document.getElementById('wish-price').value='';
+  document.getElementById('wish-note').value='';
+  renderWishlist();
+  toast('⭐ Ajouté à la wishlist !','#FFD700');
+}
+
+function removeWishItem(id){
+  wishlist = wishlist.filter(x=>x.id!==id);
+  saveWishlist(); renderWishlist();
+  toast('Retiré de la wishlist','#FF4F6A');
+}
+
+function renderWishlist(){
+  const el = document.getElementById('wish-list');
+  if(!el) return;
+  if(!wishlist.length){
+    el.innerHTML='<div style="text-align:center;padding:50px 20px;color:var(--muted)"><div style="font-size:40px;margin-bottom:10px">⭐</div><div style="font-family:Space Grotesk,sans-serif;font-size:16px;font-weight:700;color:var(--ink)">Wishlist vide</div><div style="font-size:13px;margin-top:6px">Ajoute des séries ou tomes à acquérir !</div></div>';
+    return;
+  }
+  const tc={BD:'#FFD700',Comics:'#1B6EF3',Manga:'#E50914',Autre:'#888'};
+  const total = wishlist.reduce((a,x)=>a+(x.price||0),0);
+  el.innerHTML = wishlist.map((w,i)=>`
+    <div class="wish-item" draggable="true" data-idx="${i}"
+      ondragstart="wishDragStart(event,${i})"
+      ondragover="wishDragOver(event)"
+      ondragleave="wishDragLeave(event)"
+      ondrop="wishDrop(event,${i})"
+      ondragend="wishDragEnd()">
+      <span style="color:var(--muted);font-size:14px;padding-top:2px">⠿</span>
+      <div style="width:10px;height:10px;border-radius:50%;background:${tc[w.type]||'#888'};flex-shrink:0;margin-top:4px"></div>
+      <div class="wish-meta">
+        <div class="wish-title">${w.title}</div>
+        <div class="wish-sub">${w.type}${w.note?' · '+w.note:''}</div>
+      </div>
+      <div class="wish-price">${w.price>0?w.price.toFixed(2)+' €':'—'}</div>
+      <button class="wish-del" onclick="removeWishItem(${w.id})" title="Retirer">✕</button>
+    </div>`).join('')
+  + `<div class="wish-total"><span>⭐ Total Wishlist</span><span>${total.toFixed(2)} €</span></div>`;
+}
+
+let wishDragSrcIdx = null;
+function wishDragStart(e,i){ wishDragSrcIdx=i; e.currentTarget.style.opacity='.5'; }
+function wishDragOver(e){ e.preventDefault(); e.currentTarget.style.background='var(--surface2)'; }
+function wishDragLeave(e){ e.currentTarget.style.background=''; }
+function wishDragEnd(){ document.querySelectorAll('.wish-item').forEach(el=>{el.style.opacity='1';el.style.background='';}); }
+function wishDrop(e,toIdx){
+  e.preventDefault(); e.currentTarget.style.background='';
+  if(wishDragSrcIdx===null||wishDragSrcIdx===toIdx) return;
+  const moved = wishlist.splice(wishDragSrcIdx,1)[0];
+  wishlist.splice(toIdx,0,moved);
+  wishDragSrcIdx=null;
+  saveWishlist(); renderWishlist();
+}
+
 // ── IMPORT/EXPORT ──
 function exportData(){
-  const blob=new Blob([JSON.stringify({series,palOrder,topOrder},null,2)],{type:'application/json'});
+  const blob=new Blob([JSON.stringify({series,palOrder,topOrder,wishlist},null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);
   a.download=`inkbox_${new Date().toISOString().slice(0,10)}.json`;a.click();
   toast('📤 Export téléchargé !','#1B6EF3');
@@ -1444,6 +1513,8 @@ function mobileNav(v, el){
   if(v==='stats') renderStats();
   else if(v==='pal') renderPAL();
   else if(v==='acheter') renderAcheter();
+  else if(v==='wishlist') renderWishlist();
+  else if(v==='wishlist') renderWishlist();
   else if(v==='journal') renderJournal();
   else if(v==='mosaic') renderMosaic();
   else if(v==='defi') renderDefi();
@@ -1464,10 +1535,13 @@ const TAG_STYLES = {
   'Dédicacé': 'tag-dedicace',
   'Édition spéciale': 'tag-edition-sp',
   'Offert': 'tag-offert',
-  'Numéroté': 'tag-num'
+  'Numéroté': 'tag-num',
+  'VO Single': 'tag-vo-single',
+  'VO TPB': 'tag-vo-tpb'
 };
 const TAG_ICONS = {
-  'Prêté':'📤','Dédicacé':'✍️','Édition spéciale':'💎','Offert':'🎁','Numéroté':'🔢'
+  'Prêté':'📤','Dédicacé':'✍️','Édition spéciale':'💎','Offert':'🎁','Numéroté':'🔢',
+  'VO Single':'🇺🇸','VO TPB':'📘'
 };
 
 function openTags(sid){
@@ -1510,6 +1584,10 @@ function renderAcheter(){
     el.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--muted)"><div style="font-size:48px;margin-bottom:12px">🎉</div><div style="font-family:Space Grotesk,sans-serif;font-size:18px;font-weight:700;color:var(--ink)">Tout est complet !</div><div style="margin-top:6px;font-size:13px">Tu as tous les tomes de toutes tes séries.</div></div>';
     return;
   }
+  const totalAcheter = toAcheter.reduce((acc,s)=>{
+    const manq = Math.max(0,(s.total||s.posses)-s.posses);
+    return acc + manq*(parseFloat(s.prix)||7);
+  },0);
   const tc = {Manga:'#8B6FFF',BD:'#00B8D4',Comics:'#FF4F6A'};
   el.innerHTML = toAcheter.map(s=>{
     const manquants = [];
@@ -1528,6 +1606,7 @@ function renderAcheter(){
       </div>
     </div>`;
   }).join('<div style="height:1px;background:var(--border);margin:12px 0"></div>');
+  el.innerHTML += `<div class="acheter-total"><span>💰 Total estimé</span><span>${totalAcheter.toFixed(2)} €</span></div>`;
 }
 function buyTome(sid, tome){
   const s = series.find(x=>x.id===sid); if(!s) return;
@@ -1704,6 +1783,7 @@ document.addEventListener('click', e=>{
 // ── INIT ──
 load();
 loadJournal();
+  loadWishlist();
 loadDefi();
 if(!series.length)demo();
 renderAll();
@@ -1734,7 +1814,9 @@ renderAll();
 
 <div class="more-menu" id="more-menu">
   <button class="more-menu-item" onclick="mobileNav('acheter',document.getElementById('bn-more'));toggleMoreMenu()">
-    <span class="more-menu-icon">🛒</span>À acheter
+    <span class="more-menu-icon">🛒</span>À acheter</button>
+        <button class="more-menu-btn" onclick="mobileNav('wishlist',this)">
+          <span class="more-menu-icon">⭐</span>Wishlist
   </button>
   <button class="more-menu-item" onclick="mobileNav('journal',document.getElementById('bn-more'));toggleMoreMenu()">
     <span class="more-menu-icon">📅</span>Journal
@@ -1791,6 +1873,8 @@ renderAll();
         <button class="tag-picker-btn tag-edition-sp" onclick="toggleTag('Édition spéciale')">💎 Édition spéciale</button>
         <button class="tag-picker-btn tag-offert" onclick="toggleTag('Offert')">🎁 Offert</button>
         <button class="tag-picker-btn tag-num" onclick="toggleTag('Numéroté')">🔢 Numéroté</button>
+        <button class="tag-picker-btn tag-vo-single" onclick="toggleTag('VO Single')">🇺🇸 VO Single</button>
+        <button class="tag-picker-btn tag-vo-tpb" onclick="toggleTag('VO TPB')">📘 VO TPB</button>
       </div>
       <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
         <div style="font-size:12px;color:var(--muted);margin-bottom:8px">Tags actifs :</div>
@@ -1799,20 +1883,6 @@ renderAll();
     </div>
     <div class="modal-foot">
       <button class="btn-modal btn-cancel" onclick="closeModal('modal-tags')">Fermer</button>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL TOP PICKER -->
-<div class="overlay" id="modal-top-picker" onclick="closeOv(event,'modal-top-picker')">
-  <div class="modal">
-    <div class="modal-head">
-      <div class="modal-title">⭐ Ajouter au classement</div>
-      <button class="modal-close" onclick="closeModal('modal-top-picker')">✕</button>
-    </div>
-    <div class="modal-body">
-      <input class="top-picker-search" id="top-picker-search" placeholder="🔍 Rechercher une série..." oninput="filterTopPicker()">
-      <div id="top-picker-list"></div>
     </div>
   </div>
 </div>
