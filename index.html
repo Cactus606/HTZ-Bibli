@@ -492,13 +492,9 @@ body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;disp
   width:100%;
   border-radius:12px;
   overflow:hidden;
-  position:relative !important;
+  position:relative;
   cursor:pointer;
   transition:transform .3s cubic-bezier(.34,1.2,.64,1);
-  /* Forcer la hauteur selon le rang */
-}
-.p1 .podium-card,.p2 .podium-card,.p3 .podium-card{
-  display:block;
 }
 .podium-card:hover{transform:translateY(-4px) scale(1.02)}
 /* Shine au hover */
@@ -517,13 +513,11 @@ body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;disp
 
 /* Cover image */
 .podium-cover{
-  position:absolute !important;
-  inset:0 !important;
-  width:100% !important;
-  height:100% !important;
-  object-fit:cover !important;
-  object-position:center !important;
-  display:block !important;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
 }
 .podium-cover-ph{
   width:100%;height:100%;
