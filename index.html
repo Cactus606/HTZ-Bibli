@@ -511,7 +511,13 @@ body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;disp
 .p3 .podium-card{height:94px}
 
 /* Cover image */
-.podium-cover{width:100%;height:100%;object-fit:cover;display:block}
+.podium-cover{
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+  border-radius:0;
+}
 .podium-cover-ph{
   width:100%;height:100%;
   display:flex;align-items:center;justify-content:center;
@@ -603,7 +609,13 @@ body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;disp
   flex-shrink:0;background:rgba(0,0,0,.06);color:#64748B;
 }
 .r1,.r2,.r3{}
-.top-cover{width:26px;height:34px;border-radius:4px;flex-shrink:0;overflow:hidden;box-shadow:0 2px 5px rgba(0,0,0,.12)}
+.top-cover{
+  width:28px;height:38px;border-radius:5px;
+  flex-shrink:0;overflow:hidden;
+  box-shadow:0 2px 6px rgba(0,0,0,.14);
+  display:flex;align-items:center;justify-content:center;
+}
+.top-cover img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
 .top-cover img{width:100%;height:100%;object-fit:cover}
 .top-cover-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:12px}
 .top-info{flex:1;min-width:0}
@@ -1985,26 +1997,89 @@ function renderTopPerso(){
   const el=document.getElementById('top-perso-list');
   if(!el)return;
   const arr=getTop();
-  if(!arr.length){el.innerHTML='<div style="color:var(--muted);font-size:13px;padding:8px 0">Note tes séries avec ⭐ pour les voir ici !</div>';return}
-  const rc=['r1','r2','r3','','','','','','',''];
-  el.innerHTML=arr.map((s,i)=>`<div class="top-drag-item" data-id="${s.id}" draggable="true"
-    style="display:flex;align-items:center;gap:10px;padding:9px 6px;border-bottom:1px solid var(--border);cursor:grab;transition:background .15s;border-radius:6px"
-    ondragstart="topDragStart(event,${s.id})"
-    ondragover="topDragOver(event)"
-    ondragleave="topDragLeave(event)"
-    ondrop="topDrop(event,${s.id})"
-    ondragend="topDragEnd()">
-    <span style="color:var(--muted);font-size:14px;flex-shrink:0">⠿</span>
-    <div class="top-rank ${rc[i]}" style="flex-shrink:0">${i+1}</div>
-    <div class="top-info" style="flex:1;min-width:0">
-      <div class="top-name">${s.nom}</div>
-      <div class="top-sub">${s.auteur||s.type} · ${'⭐'.repeat(s.note)}</div>
-    </div>
-    <input type="number" min="1" max="${arr.length}" value="${i+1}"
-      style="width:38px;padding:4px;background:var(--surface);border:1px solid var(--border);border-radius:7px;color:var(--ink);font-family:Space Grotesk,sans-serif;font-size:12px;font-weight:700;text-align:center;outline:none;flex-shrink:0"
-      onclick="event.stopPropagation()"
-      onchange="topReorder(${s.id},parseInt(this.value)-1,${arr.length})">
-  </div>`).join('');
+  const medals=['🥇','🥈','🥉'];
+  const pClass=['p1','p2','p3'];
+
+  // Header avec bouton ajouter
+  let html=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+    ${arr.length?`<span style="font-size:12px;color:#94A3B8">${arr.length}/10 séries</span>`:'<span></span>'}
+    <button onclick="openTopPicker()" style="display:flex;align-items:center;gap:5px;padding:6px 13px;background:var(--violet);border:none;border-radius:8px;color:#fff;font-family:DM Sans,sans-serif;font-size:12px;font-weight:600;cursor:pointer">＋ Ajouter une série</button>
+  </div>`;
+
+  if(!arr.length){
+    el.innerHTML=html+'<div style="color:#94A3B8;font-size:13px;padding:12px 0;text-align:center">Clique sur <strong>＋ Ajouter une série</strong> pour commencer !</div>';
+    return;
+  }
+
+  // Podium top 3 (ordre visuel : 2e gauche, 1er centre, 3e droite)
+  if(arr.length>=3){
+    const podOrder=[arr[1],arr[0],arr[2]];
+    const podIdx=[1,0,2];
+    html+=`<div class="podium-wrap">`;
+    podOrder.forEach((s,vi)=>{
+      const ri=podIdx[vi];
+      const coverHTML=s.cover
+        ?`<img class="podium-cover" src="${s.cover}" onerror="this.src='';this.parentElement.innerHTML='<div class=podium-cover-ph style=background:${s.color||'#1B6EF3'}18>${TE[s.type]||'📖'}</div>'">`
+        :`<div class="podium-cover-ph" style="background:${s.color||'#1B6EF3'}22;width:100%;height:100%">${TE[s.type]||'📖'}</div>`;
+      html+=`<div class="podium-col ${pClass[ri]}" draggable="true"
+        ondragstart="topDragStart(event,${s.id})"
+        ondragover="topDragOver(event)"
+        ondragleave="topDragLeave(event)"
+        ondrop="topDrop(event,${s.id})"
+        ondragend="topDragEnd()" style="cursor:grab">
+        <div class="podium-card">
+          ${coverHTML}
+          <div class="podium-overlay"></div>
+          <div class="podium-medal">${medals[ri]}</div>
+          <div class="podium-val">${s.note?'⭐'.repeat(s.note):s.type}</div>
+        </div>
+        <div class="podium-base"></div>
+        <div class="podium-name">${s.nom}</div>
+        <div class="podium-sub" style="display:flex;align-items:center;gap:4px;justify-content:center">
+          <button onclick="removeFromTop(${s.id})" style="font-size:9px;border:none;background:rgba(239,68,68,.1);color:#EF4444;border-radius:4px;padding:1px 5px;cursor:pointer">✕</button>
+        </div>
+      </div>`;
+    });
+    html+=`</div>`;
+  } else if(arr.length>0){
+    // Moins de 3 : juste la cover du 1er centrée
+    const s=arr[0];
+    const coverHTML=s.cover
+      ?`<img class="podium-cover" src="${s.cover}">`
+      :`<div class="podium-cover-ph" style="background:${s.color||'#1B6EF3'}22;width:100%;height:100%">${TE[s.type]||'📖'}</div>`;
+    html+=`<div class="podium-wrap"><div class="podium-col p1" style="max-width:120px">
+      <div class="podium-card">${coverHTML}<div class="podium-overlay"></div><div class="podium-medal">🥇</div></div>
+      <div class="podium-base"></div>
+      <div class="podium-name">${s.nom}</div>
+    </div></div>`;
+  }
+
+  // 4e→10e en liste draggable
+  if(arr.length>3){
+    html+=`<div class="podium-rest">`;
+    arr.slice(3).forEach((s,i)=>{
+      const idx=i+3;
+      const rgb=getRgb(s.color);
+      html+=`<div class="top-row top-drag-item" data-id="${s.id}" draggable="true"
+        style="--row-color:${s.color||'#1B6EF3'};--row-rgb:${rgb}"
+        ondragstart="topDragStart(event,${s.id})"
+        ondragover="topDragOver(event)"
+        ondragleave="topDragLeave(event)"
+        ondrop="topDrop(event,${s.id})"
+        ondragend="topDragEnd()">
+        <span style="color:#CBD5E1;font-size:16px;flex-shrink:0;cursor:grab">⠿</span>
+        <div class="top-rank">${idx+1}</div>
+        ${s.cover?`<div class="top-cover"><img src="${s.cover}" style="width:100%;height:100%;object-fit:cover;display:block"></div>`:`<div class="top-cover"><div class="top-cover-ph" style="background:${s.color}18">${TE[s.type]||'📖'}</div></div>`}
+        <div class="top-info">
+          <div class="top-name">${s.nom}</div>
+          <div class="top-sub">${s.note?'⭐'.repeat(s.note)+' · ':''} ${s.type}</div>
+        </div>
+        <button onclick="removeFromTop(${s.id})" style="width:22px;height:22px;border-radius:50%;border:none;background:rgba(239,68,68,.08);color:#EF4444;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0">✕</button>
+      </div>`;
+    });
+    html+=`</div>`;
+  }
+  el.innerHTML=html;
 }
 
 // ── PAL helpers ──
@@ -2650,27 +2725,67 @@ function renderOmnibus(){
   const ordered = [];
   omnibusOrder.forEach(id => { const s = omn.find(x=>x.id===id); if(s) ordered.push(s); });
   omn.forEach(s => { if(!omnibusOrder.includes(s.id)) ordered.push(s); });
-  const rc = ['r1','r2','r3','','','','','','',''];
-  el.innerHTML = ordered.map((s,i) => `
-    <div class="top-drag-item" data-id="${s.id}" draggable="true"
-      style="display:flex;align-items:center;gap:10px;padding:9px 6px;border-bottom:1px solid var(--border);cursor:grab;border-radius:6px"
-      ondragstart="omnDragStart(event,${s.id})"
-      ondragover="omnDragOver(event)"
-      ondragleave="omnDragLeave(event)"
-      ondrop="omnDrop(event,${s.id})"
-      ondragend="omnDragEnd()">
-      <span style="color:#CBD5E1;font-size:16px;flex-shrink:0;cursor:grab">⠿</span>
-      <div class="top-rank ${rc[i]||''}" style="flex-shrink:0">${i<3?['🥇','🥈','🥉'][i]:(i+1)}</div>
-      ${s.cover?`<div style="width:28px;height:38px;border-radius:5px;overflow:hidden;flex-shrink:0;box-shadow:0 2px 6px rgba(0,0,0,.15)"><img src="${s.cover}" style="width:100%;height:100%;object-fit:cover"></div>`:`<div style="width:28px;height:38px;border-radius:5px;background:${s.color||'#1B6EF3'}18;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">${TE[s.type]||'📖'}</div>`}
-      <div class="top-info" style="flex:1;min-width:0">
-        <div class="top-name">${s.nom}</div>
-        <div class="top-sub">${s.type} · ${s.posses} tome${s.posses>1?'s':''} · ${(s.posses*(parseFloat(s.prix)||0)).toFixed(0)}€</div>
-      </div>
-      <input type="number" min="1" max="${ordered.length}" value="${i+1}"
-        style="width:38px;padding:4px;background:var(--surface);border:1px solid var(--border);border-radius:7px;color:var(--ink);font-family:Space Grotesk,sans-serif;font-size:12px;font-weight:700;text-align:center;outline:none;flex-shrink:0"
-        onclick="event.stopPropagation()"
-        onchange="omnReorder(${s.id},parseInt(this.value)-1,${ordered.length})">
-    </div>`).join('');
+  // Podium top 3 + liste reste
+  const medals=['🥇','🥈','🥉'];
+  const pClass=['p1','p2','p3'];
+  let html='';
+  if(ordered.length>=3){
+    const podOrder=[ordered[1],ordered[0],ordered[2]];
+    const podIdx=[1,0,2];
+    html+=`<div class="podium-wrap">`;
+    podOrder.forEach((s,vi)=>{
+      const ri=podIdx[vi];
+      const coverHTML=s.cover
+        ?`<img class="podium-cover" src="${s.cover}" onerror="this.src=''">`
+        :`<div class="podium-cover-ph" style="background:${s.color||'#1B6EF3'}22;width:100%;height:100%">${TE[s.type]||'📖'}</div>`;
+      html+=`<div class="podium-col ${pClass[ri]}" draggable="true"
+        ondragstart="omnDragStart(event,${s.id})"
+        ondragover="omnDragOver(event)"
+        ondragleave="omnDragLeave(event)"
+        ondrop="omnDrop(event,${s.id})"
+        ondragend="omnDragEnd()" style="cursor:grab">
+        <div class="podium-card">
+          ${coverHTML}
+          <div class="podium-overlay"></div>
+          <div class="podium-medal">${medals[ri]}</div>
+          <div class="podium-val">${s.posses} t.</div>
+        </div>
+        <div class="podium-base"></div>
+        <div class="podium-name">${s.nom}</div>
+        <div class="podium-sub">${(s.posses*(parseFloat(s.prix)||0)).toFixed(0)}€</div>
+      </div>`;
+    });
+    html+=`</div>`;
+  }
+  if(ordered.length>3){
+    html+=`<div class="podium-rest">`;
+    ordered.slice(3).forEach((s,i)=>{
+      const idx=i+3;
+      const rgb=getRgb(s.color);
+      html+=`<div class="top-row top-drag-item" data-id="${s.id}" draggable="true"
+        style="--row-color:${s.color||'#1B6EF3'};--row-rgb:${rgb}"
+        ondragstart="omnDragStart(event,${s.id})"
+        ondragover="omnDragOver(event)"
+        ondragleave="omnDragLeave(event)"
+        ondrop="omnDrop(event,${s.id})"
+        ondragend="omnDragEnd()">
+        <span style="color:#CBD5E1;font-size:16px;flex-shrink:0;cursor:grab">⠿</span>
+        <div class="top-rank">${idx+1}</div>
+        ${s.cover?`<div class="top-cover"><img src="${s.cover}" style="width:100%;height:100%;object-fit:cover;display:block"></div>`:`<div class="top-cover"><div class="top-cover-ph" style="background:${s.color}18">${TE[s.type]||'📖'}</div></div>`}
+        <div class="top-info">
+          <div class="top-name">${s.nom}</div>
+          <div class="top-sub">${s.type} · ${s.posses} t. · ${(s.posses*(parseFloat(s.prix)||0)).toFixed(0)}€</div>
+        </div>
+        <input type="number" min="1" max="${ordered.length}" value="${idx+1}"
+          style="width:34px;padding:4px;background:rgba(0,0,0,.05);border:1px solid rgba(0,0,0,.08);border-radius:7px;color:#0F172A;font-family:Space Grotesk,sans-serif;font-size:11px;font-weight:700;text-align:center;outline:none;flex-shrink:0"
+          onclick="event.stopPropagation()"
+          onchange="omnReorder(${s.id},parseInt(this.value)-1,${ordered.length})">
+      </div>`;
+    });
+    html+=`</div>`;
+  }
+  if(!html) html='<div style="color:#94A3B8;font-size:13px;padding:10px 0">Ajoute le tag 📦 Omnibus sur tes séries pour les voir ici.</div>';
+  el.innerHTML=html;
 }
 let omnDragId = null;
 function omnDragStart(e,id){ omnDragId=id; e.currentTarget.style.opacity='.5'; }
