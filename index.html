@@ -495,7 +495,12 @@ body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;disp
   position:relative;
   cursor:pointer;
   transition:transform .3s cubic-bezier(.34,1.2,.64,1);
+  display:block;
 }
+/* Hauteurs fixes par rang — l'image ne peut pas déborder */
+.p1 .podium-card{height:130px}
+.p2 .podium-card{height:108px}
+.p3 .podium-card{height:94px}
 .podium-card:hover{transform:translateY(-4px) scale(1.02)}
 /* Shine au hover */
 .podium-card::after{
@@ -507,9 +512,7 @@ body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;disp
 .podium-card:hover::after{animation:shine-card .5s ease}
 
 /* Tailles différentes par rang */
-.p1 .podium-card{height:130px}
-.p2 .podium-card{height:108px}
-.p3 .podium-card{height:94px}
+
 
 /* Cover image */
 .podium-cover{
@@ -518,6 +521,16 @@ body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;disp
   object-fit:cover;
   object-position:center;
   display:block;
+  max-height:100%;
+  max-width:100%;
+}
+.podium-card img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
 }
 .podium-cover-ph{
   width:100%;height:100%;
