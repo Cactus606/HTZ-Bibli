@@ -512,11 +512,13 @@ body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;disp
 
 /* Cover image */
 .podium-cover{
-  width:100%;height:100%;
-  object-fit:cover;
-  object-position:center;
-  display:block;
-  border-radius:0;
+  width:100% !important;
+  height:100% !important;
+  object-fit:cover !important;
+  object-position:center top !important;
+  display:block !important;
+  position:absolute;
+  inset:0;
 }
 .podium-cover-ph{
   width:100%;height:100%;
@@ -1993,6 +1995,50 @@ function topReorder(id,newIdx,len){
   renderTopPerso();
   toast('📌 Position mise à jour',null);
 }
+// ── Helpers globaux ──
+function getRgb(c){const m=(c||'#1B6EF3').match(/#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})/);return m?`${parseInt(m[1],16)},${parseInt(m[2],16)},${parseInt(m[3],16)}`:'27,110,243'}
+
+function globalPodium(arr,valFn,subFn){
+  if(!arr||!arr.length) return '<div style="color:#94A3B8;font-size:13px;padding:8px 0">Pas encore de données.</div>';
+  const medals=['🥇','🥈','🥉'];
+  const pClass=['p1','p2','p3'];
+  const podOrder=arr.length>=3?[arr[1],arr[0],arr[2]]:arr.slice(0,Math.min(arr.length,3));
+  const podIdx=arr.length>=3?[1,0,2]:[1,0,2];
+  let html='<div class="podium-wrap">';
+  podOrder.forEach((s,vi)=>{
+    if(!s) return;
+    const ri=podIdx[vi];
+    const cvr=s.cover?`<img class="podium-cover" src="${s.cover}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`:'';
+    const ph=`<div class="podium-cover-ph" style="${s.cover?'display:none;':''}background:${s.color||'#1B6EF3'}22;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:28px">${(window.TE&&TE[s.type])||'📖'}</div>`;
+    html+=`<div class="podium-col ${pClass[ri]}">
+      <div class="podium-card">${cvr}${ph}
+        <div class="podium-overlay"></div>
+        <div class="podium-medal">${medals[ri]||ri+1}</div>
+        <div class="podium-val">${valFn(s,ri)}</div>
+      </div>
+      <div class="podium-base"></div>
+      <div class="podium-name">${s.nom}</div>
+      <div class="podium-sub">${subFn(s,ri)}</div>
+    </div>`;
+  });
+  html+='</div>';
+  if(arr.length>3){
+    html+='<div class="podium-rest">';
+    arr.slice(3).forEach((s,i)=>{
+      const idx=i+3;
+      const rgb=getRgb(s.color);
+      const cvr=s.cover?`<div class="top-cover"><img src="${s.cover}" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block"></div>`:`<div class="top-cover"><div class="top-cover-ph" style="background:${s.color}18">${(window.TE&&TE[s.type])||'📖'}</div></div>`;
+      html+=`<div class="top-row" style="--row-color:${s.color||'#1B6EF3'};--row-rgb:${rgb}">
+        <div class="top-rank">${idx+1}</div>${cvr}
+        <div class="top-info"><div class="top-name">${s.nom}</div><div class="top-sub">${subFn(s,idx)}</div></div>
+        <div class="top-val">${valFn(s,idx)}</div>
+      </div>`;
+    });
+    html+='</div>';
+  }
+  return html;
+}
+
 function renderTopPerso(){
   const el=document.getElementById('top-perso-list');
   if(!el)return;
@@ -2019,8 +2065,8 @@ function renderTopPerso(){
     podOrder.forEach((s,vi)=>{
       const ri=podIdx[vi];
       const coverHTML=s.cover
-        ?`<img class="podium-cover" src="${s.cover}" onerror="this.src='';this.parentElement.innerHTML='<div class=podium-cover-ph style=background:${s.color||'#1B6EF3'}18>${TE[s.type]||'📖'}</div>'">`
-        :`<div class="podium-cover-ph" style="background:${s.color||'#1B6EF3'}22;width:100%;height:100%">${TE[s.type]||'📖'}</div>`;
+        ?`<img class="podium-cover" src="${s.cover}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`+`<div class="podium-cover-ph" style="display:none;background:${s.color||'#1B6EF3'}22;width:100%;height:100%;align-items:center;justify-content:center;font-size:28px">${TE[s.type]||'📖'}</div>`
+        :`<div class="podium-cover-ph" style="background:${s.color||'#1B6EF3'}22;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:28px">${TE[s.type]||'📖'}</div>`;
       html+=`<div class="podium-col ${pClass[ri]}" draggable="true"
         ondragstart="topDragStart(event,${s.id})"
         ondragover="topDragOver(event)"
@@ -2529,57 +2575,10 @@ function renderStats(){
   const top5n=[...series].filter(s=>s.note).sort((a,b)=>b.note-a.note).slice(0,5);
   const rc=['r1','r2','r3','',''];
   // ── Helper podium complet ──
-  const getRgb=c=>{const m=(c||'#1B6EF3').match(/#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})/);return m?`${parseInt(m[1],16)},${parseInt(m[2],16)},${parseInt(m[3],16)}`:'27,110,243'};
+  // getRgb défini globalement
 
-  const podiumHTML=(arr,valFn,subFn)=>{
-    if(!arr.length) return '<div style="color:#94A3B8;font-size:13px;padding:8px 0">Pas encore de données.</div>';
-    const medals=['🥇','🥈','🥉'];
-    const pClass=['p1','p2','p3'];
-    // Ordre visuel podium : 2e à gauche, 1er au centre, 3e à droite
-    const podOrder=arr.length>=3?[arr[1],arr[0],arr[2]]:arr.slice(0,3);
-    const podIdx=arr.length>=3?[1,0,2]:[1,0,2];
-    const podCols=podOrder.map((s,vi)=>{
-      const realIdx=podIdx[vi];
-      if(!s) return '';
-      const coverHTML=s.cover
-        ?`<img class="podium-cover" src="${s.cover}" onerror="this.parentElement.innerHTML='<div class=podium-cover-ph style=background:${s.color}18>${TE[s.type]||'📖'}</div>'">`
-        :`<div class="podium-cover-ph" style="background:${s.color||'#1B6EF3'}22;width:100%;height:100%">${TE[s.type]||'📖'}</div>`;
-      return`<div class="podium-col ${pClass[realIdx]}">
-        <div class="podium-card">
-          ${coverHTML}
-          <div class="podium-overlay"></div>
-          <div class="podium-medal">${medals[realIdx]}</div>
-          <div class="podium-val">${valFn(s,realIdx)}</div>
-        </div>
-        <div class="podium-base"></div>
-        <div class="podium-name">${s.nom}</div>
-        <div class="podium-sub">${subFn(s,realIdx)}</div>
-      </div>`;
-    }).join('');
-
-    // 4e et 5e en liste
-    const restRows=arr.slice(3).map((s,i)=>{
-      const idx=i+3;
-      const rgb=getRgb(s.color);
-      const coverHTML=s.cover
-        ?`<div class="top-cover"><img src="${s.cover}" onerror="this.parentElement.innerHTML='<div class=top-cover-ph>${TE[s.type]||'📖'}</div>'"></div>`
-        :`<div class="top-cover"><div class="top-cover-ph" style="background:${s.color}18">${TE[s.type]||'📖'}</div></div>`;
-      return`<div class="top-row" style="--row-color:${s.color||'#1B6EF3'};--row-rgb:${rgb}">
-        <div class="top-rank">${idx+1}</div>
-        ${coverHTML}
-        <div class="top-info">
-          <div class="top-name">${s.nom}</div>
-          <div class="top-sub">${subFn(s,idx)}</div>
-        </div>
-        <div class="top-val">${valFn(s,idx)}</div>
-      </div>`;
-    }).join('');
-
-    return`<div class="podium-wrap">${podCols}</div>${restRows?`<div class="podium-rest">${restRows}</div>`:''}`;
-  };
-
-  // Ancien helper pour compat
-  const topRow=(s,i,val,sub)=>podiumHTML([s],()=>val,()=>sub);
+  // podiumHTML défini globalement
+  const topRow=(s,i,val,sub)=>globalPodium([s],()=>val,()=>sub);
 
   const withTotal=series.filter(s=>s.total>0).sort((a,b)=>(b.posses/b.total)-(a.posses/a.total));
   // Top pages
@@ -2610,12 +2609,12 @@ function renderStats(){
     </div>
     <div class="chart-box">
       <div class="chart-box-title">📄 Top — Pages lues</div>
-      ${podiumHTML(topPages,(s,i)=>{const p=(s.pages||PAGES_DEF[s.type]||192)*(s.tomes_lus?.length||0);return p>=1000?(p/1000).toFixed(1)+'k p.':p+' p.'},(s,i)=>(s.tomes_lus?.length||0)+' tomes lus')}
+      ${globalPodium(topPages,(s,i)=>{const p=(s.pages||PAGES_DEF[s.type]||192)*(s.tomes_lus?.length||0);return p>=1000?(p/1000).toFixed(1)+'k p.':p+' p.'},(s,i)=>(s.tomes_lus?.length||0)+' tomes lus')}
     </div>
 
     <div class="chart-box">
       <div class="chart-box-title">⚖️ Top — Plus lourd</div>
-      ${(()=>{const ws=[...series].sort((a,b)=>(b.posses*(b.poids||POIDS_DEF[b.type]||185))-(a.posses*(a.poids||POIDS_DEF[a.type]||185))).slice(0,5);return podiumHTML(ws,(s,i)=>{const p=s.posses*(s.poids||POIDS_DEF[s.type]||185);return p>=1000?(p/1000).toFixed(1)+'kg':p+'g'},(s,i)=>s.posses+' tomes · '+(s.poids||POIDS_DEF[s.type])+'g/tome')})()}
+      ${(()=>{const ws=[...series].sort((a,b)=>(b.posses*(b.poids||POIDS_DEF[b.type]||185))-(a.posses*(a.poids||POIDS_DEF[a.type]||185))).slice(0,5);return globalPodium(ws,(s,i)=>{const p=s.posses*(s.poids||POIDS_DEF[s.type]||185);return p>=1000?(p/1000).toFixed(1)+'kg':p+'g'},(s,i)=>s.posses+' tomes · '+(s.poids||POIDS_DEF[s.type])+'g/tome')})()}
     </div>
     <div class="chart-box full" id="omnibus-box">
       <div class="chart-box-title" style="display:flex;align-items:center;justify-content:space-between">
@@ -2736,8 +2735,8 @@ function renderOmnibus(){
     podOrder.forEach((s,vi)=>{
       const ri=podIdx[vi];
       const coverHTML=s.cover
-        ?`<img class="podium-cover" src="${s.cover}" onerror="this.src=''">`
-        :`<div class="podium-cover-ph" style="background:${s.color||'#1B6EF3'}22;width:100%;height:100%">${TE[s.type]||'📖'}</div>`;
+        ?`<img class="podium-cover" src="${s.cover}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`+`<div class="podium-cover-ph" style="display:none;background:${s.color||'#1B6EF3'}22;width:100%;height:100%;align-items:center;justify-content:center;font-size:28px">${TE[s.type]||'📖'}</div>`
+        :`<div class="podium-cover-ph" style="background:${s.color||'#1B6EF3'}22;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:28px">${TE[s.type]||'📖'}</div>`;
       html+=`<div class="podium-col ${pClass[ri]}" draggable="true"
         ondragstart="omnDragStart(event,${s.id})"
         ondragover="omnDragOver(event)"
