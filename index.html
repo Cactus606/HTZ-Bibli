@@ -1502,9 +1502,190 @@ mark{background:rgba(27,110,243,.15);color:#5B9BFF;border-radius:3px;padding:0 2
 .more-menu-icon{font-size:24px}
 @media(max-width:768px){.bottom-nav{grid-template-columns:1fr 1fr 1fr 1fr}}
 
+
+/* ── LOCK SCREEN ── */
+@keyframes lock-in{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}15%{transform:translateX(-8px)}30%{transform:translateX(8px)}45%{transform:translateX(-6px)}60%{transform:translateX(6px)}75%{transform:translateX(-3px)}90%{transform:translateX(3px)}}
+#lock-screen{
+  position:fixed;inset:0;z-index:99999;
+  background:linear-gradient(160deg,#04080F 0%,#060C1A 50%,#080614 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  animation:lock-in .4s ease;
+  padding:40px 24px;
+}
+.lock-logo{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:52px;letter-spacing:4px;
+  color:#fff;margin-bottom:6px;
+  text-align:center;
+}
+.lock-logo span{
+  color:transparent;
+  -webkit-text-stroke:1.5px #1B6EF3;
+  filter:drop-shadow(0 0 12px rgba(27,110,243,.6));
+}
+.lock-sub{
+  font-size:10px;letter-spacing:4px;text-transform:uppercase;
+  color:rgba(27,110,243,.6);margin-bottom:48px;
+  font-family:'Space Grotesk',sans-serif;font-weight:600;
+}
+.lock-dots{
+  display:flex;gap:14px;margin-bottom:32px;
+}
+.lock-dot{
+  width:14px;height:14px;border-radius:50%;
+  border:2px solid rgba(27,110,243,.4);
+  background:transparent;
+  transition:all .2s cubic-bezier(.34,1.3,.64,1);
+}
+.lock-dot.filled{
+  background:#1B6EF3;
+  border-color:#1B6EF3;
+  box-shadow:0 0 12px rgba(27,110,243,.6);
+  transform:scale(1.15);
+}
+.lock-dot.error{
+  background:#EF4444;
+  border-color:#EF4444;
+  box-shadow:0 0 12px rgba(239,68,68,.6);
+}
+.lock-pad{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  width:min(320px,85vw);
+  padding:0 4px;
+}
+.lock-key{
+  aspect-ratio:1;border-radius:16px;
+  border:1px solid rgba(27,110,243,.15);
+  background:rgba(255,255,255,.04);
+  color:#fff;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(18px,5vw,24px);font-weight:700;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .15s cubic-bezier(.34,1.3,.64,1);
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+  min-height:70px;
+}
+.lock-key:active{
+  transform:scale(.9);
+  background:rgba(27,110,243,.2);
+  border-color:rgba(27,110,243,.5);
+}
+.lock-key.del{font-size:18px;color:rgba(255,255,255,.4)}
+.lock-key.empty{border:none;background:none;cursor:default}
+.lock-error{
+  font-size:12px;color:#EF4444;
+  margin-top:20px;font-family:'DM Sans',sans-serif;
+  font-weight:600;letter-spacing:.5px;
+  opacity:0;transition:opacity .2s;
+  height:18px;
+}
+.lock-error.show{opacity:1}
+.lock-shake{animation:shake .5s ease}
+
+
+/* ── LOCK SCREEN ── */
+@keyframes lock-in{from{opacity:0}to{opacity:1}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+#lock-screen{
+  position:fixed;inset:0;z-index:99999;
+  background:linear-gradient(160deg,#04080F,#060C1A,#080614);
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;
+  animation:lock-in .3s ease;
+  box-sizing:border-box;
+  padding:16px 20px;
+  gap:16px;
+}
+.lock-logo{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:38px;letter-spacing:4px;color:#fff;
+  text-align:center;line-height:1;margin:0;
+}
+.lock-logo span{color:transparent;-webkit-text-stroke:1.5px #1B6EF3}
+.lock-sub{
+  font-size:8px;letter-spacing:4px;text-transform:uppercase;
+  color:rgba(27,110,243,.6);margin:0;
+  font-family:'Space Grotesk',sans-serif;font-weight:600;
+}
+.lock-dots{display:flex;gap:10px;margin:0}
+.lock-dot{
+  width:11px;height:11px;border-radius:50%;
+  border:2px solid rgba(27,110,243,.4);background:transparent;
+  transition:all .2s;
+}
+.lock-dot.filled{background:#1B6EF3;border-color:#1B6EF3;box-shadow:0 0 8px rgba(27,110,243,.6);transform:scale(1.2)}
+.lock-dot.error{background:#EF4444;border-color:#EF4444}
+.lock-pad{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  width:100%;
+  max-width:240px;
+  margin:0;
+}
+.lock-key{
+  height:60px;
+  border-radius:14px;
+  border:1px solid rgba(27,110,243,.15);
+  background:rgba(255,255,255,.05);
+  color:#fff;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:20px;font-weight:700;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+  transition:background .1s,transform .1s;
+}
+.lock-key:active{background:rgba(27,110,243,.25);transform:scale(.92)}
+.lock-key.del{font-size:16px;color:rgba(255,255,255,.4)}
+.lock-key.empty{border:none;background:none;pointer-events:none}
+.lock-error{
+  font-size:11px;color:#EF4444;margin:0;
+  font-family:'DM Sans',sans-serif;font-weight:600;
+  opacity:0;transition:opacity .2s;height:16px;
+  letter-spacing:.5px;
+}
+.lock-error.show{opacity:1}
+.lock-shake{animation:shake .45s ease}
 </style>
 </head>
 <body>
+
+<!-- LOCK SCREEN -->
+<div id="lock-screen">
+  <div class="lock-logo">HTZ<span>BIBLI</span></div>
+  <div class="lock-sub">Ma Collection</div>
+  <div class="lock-dots" id="lock-dots">
+    <div class="lock-dot"></div>
+    <div class="lock-dot"></div>
+    <div class="lock-dot"></div>
+    <div class="lock-dot"></div>
+    <div class="lock-dot"></div>
+    <div class="lock-dot"></div>
+    <div class="lock-dot"></div>
+  </div>
+  <div class="lock-pad">
+    <button class="lock-key" onclick="lockKey('1')">1</button>
+    <button class="lock-key" onclick="lockKey('2')">2</button>
+    <button class="lock-key" onclick="lockKey('3')">3</button>
+    <button class="lock-key" onclick="lockKey('4')">4</button>
+    <button class="lock-key" onclick="lockKey('5')">5</button>
+    <button class="lock-key" onclick="lockKey('6')">6</button>
+    <button class="lock-key" onclick="lockKey('7')">7</button>
+    <button class="lock-key" onclick="lockKey('8')">8</button>
+    <button class="lock-key" onclick="lockKey('9')">9</button>
+    <button class="lock-key empty"></button>
+    <button class="lock-key" onclick="lockKey('0')">0</button>
+    <button class="lock-key del" onclick="lockDel()">⌫</button>
+  </div>
+  <div class="lock-error" id="lock-error">Code incorrect</div>
+</div>
+
 
 <nav class="sidebar">
   <div class="sidebar-logo">
@@ -1781,6 +1962,52 @@ mark{background:rgba(27,110,243,.15);color:#5B9BFF;border-radius:3px;padding:0 2
 <div class="toast" id="toast"><div class="toast-stripe" id="toast-stripe"></div><span id="toast-msg"></span></div>
 
 <script>
+var LOCK_CODE='6069318';
+var lockInput='';
+function lockKey(k){
+  if(lockInput.length>=7)return;
+  lockInput+=k;
+  updateLockDots();
+  if(lockInput.length===7)setTimeout(checkLock,150);
+}
+function lockDel(){
+  lockInput=lockInput.slice(0,-1);
+  updateLockDots();
+  var e=document.getElementById('lock-error');
+  if(e)e.classList.remove('show');
+}
+function updateLockDots(){
+  var dots=document.querySelectorAll('.lock-dot');
+  dots.forEach(function(d,i){
+    d.classList.toggle('filled',i<lockInput.length);
+    d.classList.remove('error');
+  });
+}
+function checkLock(){
+  if(lockInput===LOCK_CODE){
+    sessionStorage.setItem('htz_ok','1');
+    var ls=document.getElementById('lock-screen');
+    if(ls){ls.style.opacity='0';ls.style.transition='opacity .35s';setTimeout(function(){ls.remove()},350);}
+  } else {
+    var dots=document.querySelectorAll('.lock-dot');
+    dots.forEach(function(d){d.classList.remove('filled');d.classList.add('error');});
+    var dw=document.getElementById('lock-dots');
+    var er=document.getElementById('lock-error');
+    if(dw)dw.classList.add('lock-shake');
+    if(er)er.classList.add('show');
+    setTimeout(function(){
+      lockInput='';
+      updateLockDots();
+      if(dw)dw.classList.remove('lock-shake');
+    },600);
+  }
+}
+if(sessionStorage.getItem('htz_ok')==='1'){
+  var ls=document.getElementById('lock-screen');
+  if(ls)ls.style.display='none';
+}
+</script>
+<script>
 const KEY='inkbox_v5';
 let series=[], palOrder=[], topOrder=[];
 let editId=null,curNote=0,curColor='#1B6EF3';
@@ -2005,7 +2232,7 @@ function globalPodium(arr,valFn,subFn){
   podOrder.forEach((s,vi)=>{
     if(!s) return;
     const ri=podIdx[vi];
-    const bgStyle=s.cover?`background-image:url('${s.cover}');background-size:cover;background-position:center;`:`background:${s.color||'#1B6EF3'}22;`;
+    const bgStyle=s.cover?`background-image:url("${s.cover}");background-size:cover;background-position:center;`:`background:${s.color||'#1B6EF3'}22;`;
     const ph=s.cover?'':`<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:28px">${(window.TE&&TE[s.type])||'📖'}</div>`;
     html+=`<div class="podium-col ${pClass[ri]}">
       <div class="podium-card" style="${bgStyle}">${ph}
@@ -2061,7 +2288,7 @@ function renderTopPerso(){
     html+=`<div class="podium-wrap">`;
     podOrder.forEach((s,vi)=>{
       const ri=podIdx[vi];
-      const bgStyle=s.cover?`background-image:url('${s.cover}');background-size:cover;background-position:center;`:`background:${s.color||'#1B6EF3'}22;`;
+      const bgStyle=s.cover?`background-image:url("${s.cover}");background-size:cover;background-position:center;`:`background:${s.color||'#1B6EF3'}22;`;
       const coverHTML=s.cover?'':`<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:28px">${TE[s.type]||'📖'}</div>`;
       html+=`<div class="podium-col ${pClass[ri]}" draggable="true"
         ondragstart="topDragStart(event,${s.id})"
@@ -2730,7 +2957,7 @@ function renderOmnibus(){
     html+=`<div class="podium-wrap">`;
     podOrder.forEach((s,vi)=>{
       const ri=podIdx[vi];
-      const bgStyle=s.cover?`background-image:url('${s.cover}');background-size:cover;background-position:center;`:`background:${s.color||'#1B6EF3'}22;`;
+      const bgStyle=s.cover?`background-image:url("${s.cover}");background-size:cover;background-position:center;`:`background:${s.color||'#1B6EF3'}22;`;
       const coverHTML=s.cover?'':`<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:28px">${TE[s.type]||'📖'}</div>`;
       html+=`<div class="podium-col ${pClass[ri]}" draggable="true"
         ondragstart="omnDragStart(event,${s.id})"
