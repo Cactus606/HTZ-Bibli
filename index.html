@@ -515,23 +515,8 @@ body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;disp
 
 
 /* Cover image */
-.podium-cover{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  object-position:center;
-  display:block;
-  max-height:100%;
-  max-width:100%;
-}
-.podium-card img{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  object-position:center;
-}
+.podium-cover{display:none}
+.podium-card img{display:none}
 .podium-cover-ph{
   width:100%;height:100%;
   display:flex;align-items:center;justify-content:center;
@@ -2020,10 +2005,10 @@ function globalPodium(arr,valFn,subFn){
   podOrder.forEach((s,vi)=>{
     if(!s) return;
     const ri=podIdx[vi];
-    const cvr=s.cover?`<img class="podium-cover" src="${s.cover}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`:'';
-    const ph=`<div class="podium-cover-ph" style="${s.cover?'display:none;':''}background:${s.color||'#1B6EF3'}22;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:28px">${(window.TE&&TE[s.type])||'📖'}</div>`;
+    const bgStyle=s.cover?`background-image:url('${s.cover}');background-size:cover;background-position:center;`:`background:${s.color||'#1B6EF3'}22;`;
+    const ph=s.cover?'':`<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:28px">${(window.TE&&TE[s.type])||'📖'}</div>`;
     html+=`<div class="podium-col ${pClass[ri]}">
-      <div class="podium-card">${cvr}${ph}
+      <div class="podium-card" style="${bgStyle}">${ph}
         <div class="podium-overlay"></div>
         <div class="podium-medal">${medals[ri]||ri+1}</div>
         <div class="podium-val">${valFn(s,ri)}</div>
@@ -2076,16 +2061,15 @@ function renderTopPerso(){
     html+=`<div class="podium-wrap">`;
     podOrder.forEach((s,vi)=>{
       const ri=podIdx[vi];
-      const coverHTML=s.cover
-        ?`<img class="podium-cover" src="${s.cover}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`+`<div class="podium-cover-ph" style="display:none;background:${s.color||'#1B6EF3'}22;width:100%;height:100%;align-items:center;justify-content:center;font-size:28px">${TE[s.type]||'📖'}</div>`
-        :`<div class="podium-cover-ph" style="background:${s.color||'#1B6EF3'}22;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:28px">${TE[s.type]||'📖'}</div>`;
+      const bgStyle=s.cover?`background-image:url('${s.cover}');background-size:cover;background-position:center;`:`background:${s.color||'#1B6EF3'}22;`;
+      const coverHTML=s.cover?'':`<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:28px">${TE[s.type]||'📖'}</div>`;
       html+=`<div class="podium-col ${pClass[ri]}" draggable="true"
         ondragstart="topDragStart(event,${s.id})"
         ondragover="topDragOver(event)"
         ondragleave="topDragLeave(event)"
         ondrop="topDrop(event,${s.id})"
         ondragend="topDragEnd()" style="cursor:grab">
-        <div class="podium-card">
+        <div class="podium-card" style="${bgStyle}">
           ${coverHTML}
           <div class="podium-overlay"></div>
           <div class="podium-medal">${medals[ri]}</div>
@@ -2746,16 +2730,15 @@ function renderOmnibus(){
     html+=`<div class="podium-wrap">`;
     podOrder.forEach((s,vi)=>{
       const ri=podIdx[vi];
-      const coverHTML=s.cover
-        ?`<img class="podium-cover" src="${s.cover}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`+`<div class="podium-cover-ph" style="display:none;background:${s.color||'#1B6EF3'}22;width:100%;height:100%;align-items:center;justify-content:center;font-size:28px">${TE[s.type]||'📖'}</div>`
-        :`<div class="podium-cover-ph" style="background:${s.color||'#1B6EF3'}22;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:28px">${TE[s.type]||'📖'}</div>`;
+      const bgStyle=s.cover?`background-image:url('${s.cover}');background-size:cover;background-position:center;`:`background:${s.color||'#1B6EF3'}22;`;
+      const coverHTML=s.cover?'':`<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:28px">${TE[s.type]||'📖'}</div>`;
       html+=`<div class="podium-col ${pClass[ri]}" draggable="true"
         ondragstart="omnDragStart(event,${s.id})"
         ondragover="omnDragOver(event)"
         ondragleave="omnDragLeave(event)"
         ondrop="omnDrop(event,${s.id})"
         ondragend="omnDragEnd()" style="cursor:grab">
-        <div class="podium-card">
+        <div class="podium-card" style="${bgStyle}">
           ${coverHTML}
           <div class="podium-overlay"></div>
           <div class="podium-medal">${medals[ri]}</div>
