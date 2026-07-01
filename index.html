@@ -2833,6 +2833,16 @@ function removeWishItem(id){
   toast('Retiré de la wishlist','#FF4F6A');
 }
 
+function editWishCover(id){
+  const w=wishlist.find(x=>x.id===id);
+  if(!w) return;
+  const url=prompt('URL de la couverture :', w.cover||'');
+  if(url===null) return; // annulé
+  w.cover=url.trim();
+  saveWishlist(); renderWishlist();
+  toast(w.cover?'🖼️ Couverture mise à jour':'Couverture retirée','#FFD700');
+}
+
 function renderWishlist(){
   const el = document.getElementById('wish-list');
   if(!el) return;
@@ -2845,8 +2855,8 @@ function renderWishlist(){
   el.innerHTML = wishlist.map((w,i)=>{
     const wc=tc[w.type]||'#888';
     const coverHTML = w.cover
-      ? `<img class="wish-cover-thumb" src="${w.cover}" alt="" onerror="this.outerHTML='<div style=\\'width:32px;height:32px;border-radius:8px;background:${wc}18;border:1px solid ${wc}44;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0\\'>${w.type==='BD'?'📙':w.type==='Manga'?'📕':'📘'}</div>'">`
-      : `<div style="width:32px;height:32px;border-radius:8px;background:${wc}18;border:1px solid ${wc}44;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">${w.type==='BD'?'📙':w.type==='Manga'?'📕':'📘'}</div>`;
+      ? `<img class="wish-cover-thumb" src="${w.cover}" alt="" onclick="editWishCover(${w.id})" title="Modifier la couverture" style="cursor:pointer" onerror="this.outerHTML='<div onclick=\\'editWishCover(${w.id})\\' title=\\'Ajouter une couverture\\' style=\\'cursor:pointer;width:32px;height:32px;border-radius:8px;background:${wc}18;border:1px solid ${wc}44;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0\\'>${w.type==='BD'?'📙':w.type==='Manga'?'📕':'📘'}</div>'">`
+      : `<div onclick="editWishCover(${w.id})" title="Ajouter une couverture" style="cursor:pointer;width:32px;height:32px;border-radius:8px;background:${wc}18;border:1px solid ${wc}44;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">${w.type==='BD'?'📙':w.type==='Manga'?'📕':'📘'}</div>`;
     return`<div class="wish-item" draggable="true" data-idx="${i}"
       style="--wish-color:${wc};animation-delay:${i*.04}s"
       ondragstart="wishDragStart(event,${i})"
